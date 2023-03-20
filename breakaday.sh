@@ -58,10 +58,10 @@ scanning_network(){
         - Domain name \n \
         - Domain controllers (IP and hostname)"
     network_ip="";subnet=""
-	cd "$PATH_TO_WORKSPACE" || exit
-	if [[ -n $(find "known-data/network/" -name 'open-*-ip_*') ]]; then
+	cd "$PATH_TO_WORKSPACE/known-data/network/" || exit
+	if [[ -n $(find . -name 'open-*-ip_*') ]]; then
         printf "\nChoose among the following ranges or select 'Quit' to scan another range:\n"
-		readarray -t ranges_scanned < <(find "known-data/network/" -name 'open-*-ip_*' | cut -d '_' -f2 | sort -u)
+		readarray -t ranges_scanned < <(find . -name 'open-*-ip_*' | cut -d '_' -f2 | sort -u)
 		select range in "${ranges_scanned[@]}" Quit
 		do
 			printf "\nSelected item #%s. We will use the chosen range : %s\n" "$REPLY" "$range";
@@ -87,9 +87,9 @@ scanning_network(){
 		wait
 	else
 		printf "\n%bThe range %s/%s on SMB ports has already been scanned... \n%bDo you really want to re-analyze it?" "${RED}" "$network_ip" "$subnet" "${NC}"
-		printf "%b\nEnter your answer (YES or NO): " "${NC}"
+		printf "\nEnter your answer [yes/no]: " 
 		read -r answer
-		if [ "$answer" == 'YES' ]; then
+		if [[ "${answer,,}" == "yes" ]]; then
     		nmap "$network_ip"/"$subnet" -p139,445 -n -Pn --open -oG - | awk '/^Host/ && /Ports/ { for (i=1;i<=NF;i++) {if (match($i,/open/)) {split($i, map, "/"); printf "%s %s %s\n",$2, map[1],map[5]}}}' | sort -u > "$PATH_TO_WORKSPACE/known-data/network/open-microsoftDS-ip_$network_ip-$subnet" &
 			wait
 		fi
@@ -102,9 +102,9 @@ scanning_network(){
 		wait
 	else
 		printf "\n%bThe range %s/%s on RPC ports has already been scanned... \n%bDo you really want to re-analyze it?" "${RED}" "$network_ip" "$subnet" "${NC}"
-		printf "%b\nEnter your answer (YES or NO): " "${NC}"
+		printf "\nEnter your answer [yes/no]: " 
 		read -r answer
-		if [ "$answer" == 'YES' ]; then
+		if [[ "${answer,,}" == "yes" ]]; then
 		    nmap "$network_ip"/"$subnet" -p135,593 -n -Pn --open -oG - | awk '/^Host/ && /Ports/ { for (i=1;i<=NF;i++) {if (match($i,/open/)) {split($i, map, "/"); printf "%s %s %s\n",$2, map[1],map[5]}}}' | sort -u > "$PATH_TO_WORKSPACE/known-data/network/open-RPC-ip_$network_ip-$subnet" &
 			wait
 		fi
@@ -117,9 +117,9 @@ scanning_network(){
 		wait
 	else
 		printf "\n%bThe range %s/%s on RDG ports has already been scanned... \n%bDo you really want to re-analyze it?" "${RED}" "$network_ip" "$subnet" "${NC}"
-		printf "%b\nEnter your answer (YES or NO): " "${NC}"
+		printf "\nEnter your answer [yes/no]: " 
 		read -r answer
-		if [ "$answer" == 'YES' ]; then
+		if [[ "${answer,,}" == "yes" ]]; then
 		    nmap "$network_ip"/"$subnet" -p3391 -n -Pn --open -oG - | awk '/^Host/ && /Ports/ { for (i=1;i<=NF;i++) {if (match($i,/open/)) {split($i, map, "/"); printf "%s %s %s\n",$2, map[1],map[5]}}}' | sort -u > "$PATH_TO_WORKSPACE/known-data/network/open-RDG-ip_$network_ip-$subnet" &
 			wait
 		fi
@@ -185,6 +185,12 @@ scanning_vulns_without-account(){
         fi
         # ATTACKING SMB PORTS : 445 
         while read -r ip port service; do
+            printf "\nDo you want really want to analyze the following : %s:%s" "$ip" "$port"
+            printf "\nEnter your answer [yes/no]: " 
+            read -r answer
+            if [[ "${answer,,}" != "yes" ]]; then
+                continue
+            fi
             # Attack: SMBGhost (or CVE-2020-0796)
             if [[ "$REPLY" == "1" ]]; then
                 if ! grep -q "$ip"  "$PATH_TO_WORKSPACE/known-data/vulns/cve-smbghost_vulns-ip"; then
@@ -234,6 +240,12 @@ scanning_vulns_without-account(){
 
         # ATTACKING RPC PORTS : 135, 593 
         while read -r ip port service; do
+            printf "\nDo you want really want to analyze the following : %s:%s" "$ip" "$port"
+            printf "\nEnter your answer [yes/no]: " 
+            read -r answer
+            if [[ "${answer,,}" != "yes" ]]; then
+                continue
+            fi
             # Attack: PetitPotam with nullsession
             if [[ "$REPLY" == "5" ]]; then
                 if ! grep -q "$ip" "$PATH_TO_WORKSPACE/known-data/vulns/petitpotam-nullsession_vulns-ip"; then
@@ -258,6 +270,12 @@ scanning_vulns_without-account(){
 
         # ATTACKING DOMAIN CONTROLLERS
         while read -r dc_name dc_ip; do
+            printf "\nDo you want really want to analyze the following : %s (%s)" "$dc_name" "$dc_ip"
+            printf "\nEnter your answer [yes/no]: " 
+            read -r answer
+            if [[ "${answer,,}" != "yes" ]]; then
+                continue
+            fi
             # Attack: ZeroLogon (or CVE-2020-1472) : TO DO
             if [[ "$REPLY" == "9" ]]; then
                 if ! grep -q "$dc_ip" "$PATH_TO_WORKSPACE/known-data/vulns/cve-zerologon_vulns-ip"; then
@@ -285,6 +303,12 @@ scanning_vulns_without-account(){
 
         # ATTACKING RDG PORTS : 3391 
         while read -r ip port service; do
+            printf "\nDo you want really want to analyze the following : %s:%s" "$ip" "$port"
+            printf "\nEnter your answer [yes/no]: " 
+            read -r answer
+            if [[ "${answer,,}" != "yes" ]]; then
+                continue
+            fi
             # Attack: BlueGate (or CVE-2020-0610)
             if [[ "$REPLY" == "11" ]]; then
                 if ! grep -q "$ip" "$PATH_TO_WORKSPACE/known-data/vulns/cve-bluegate_vulns-ip"; then
@@ -363,6 +387,12 @@ scanning_vulns_with-domain-account(){
         fi
 
         while read -r ip port service; do
+            printf "\nDo you want really want to analyze the following : %s:%s" "$ip" "$port"
+            printf "\nEnter your answer [yes/no]: " 
+            read -r answer
+            if [[ "${answer,,}" != "yes" ]]; then
+                continue
+            fi
             # Attack: Eternal Blue (or MS17-010)
             if [[ "$REPLY" == "1" ]]; then
                 if ! grep -q "$ip" "$PATH_TO_WORKSPACE/known-data/vulns/ms17-010-eternalblue_vulns-ip" ; then
@@ -398,6 +428,12 @@ scanning_vulns_with-domain-account(){
 
         # ATTACKING RPC PORTS : 135, 593 
         while read -r ip port service; do
+            printf "\nDo you want really want to analyze the following : %s:%s" "$ip" "$port"
+            printf "\nEnter your answer [yes/no]: " 
+            read -r answer
+            if [[ "${answer,,}" != "yes" ]]; then
+                continue
+            fi
             # Attack: PetitPotam with session      
             if [[ "$REPLY" == "4" ]]; then
                 if ! grep -q "$ip" "$PATH_TO_WORKSPACE/known-data/vulns/petitpotam_vulns-ip"; then
@@ -411,6 +447,12 @@ scanning_vulns_with-domain-account(){
 
         # ATTACKING DOMAIN CONTROLLERS
         while read -r dc_name dc_ip; do
+            printf "\nDo you want really want to analyze the following : %s:%s" "$dc_name" "$dc_ip"
+            printf "\nEnter your answer [yes/no]: " 
+            read -r answer
+            if [[ "${answer,,}" != "yes" ]]; then
+                continue
+            fi
             # Attack: sAMAccountName spoofing/noPac (or CVE-2021-42278)
             if [[ "$REPLY" == "5" ]]; then
                 if ! grep -q "$dc_ip" "$PATH_TO_WORKSPACE/known-data/vulns/cve-sAMAccountNameSpoofing_vulns-ip"; then
