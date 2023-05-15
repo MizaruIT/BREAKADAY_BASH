@@ -18,6 +18,17 @@ During a penetration test on an Active Directory (AD) infrastructure, it often h
 In addition of the searching part, the script was made to find new ways of compromission. For this, the database Neo4j (and BloodHound) is used to create the paths of compromission from the vulnerable computers. In brief, for each computer vulnerable, a new value "isVulnerableToX" is set. It can be used with cypher queries.
 
 ## 🛠 Installation <a name="installation"/>
+**NEW WAY - Via Docker**
+# => ALL_IN_ONE
+All the explantions of the Docker installation (creation of the image, run, and launch are described into DOCKER/HowToDocker.txt)
+```sh
+docker build -f DOCKER/breakaday.all.dockerfile . -t breakaday_all
+docker run -it -v $(pwd)/PENTEST/:/workspace --name persistent_breakaday_all_enterprise breakaday_all
+docker container ls -a 
+docker start $ID
+docker exec -it $ID zsh
+```
+
 **I) Command per command**
 1) Clone the repository
 ```sh
@@ -306,7 +317,9 @@ It will ask you your neo4j username, password and port used by the database, ent
  	- [ ] Implement others exploits
  	- [ ] Verify that the exploitations for each implemented vulnerabilities are working (especially the shellcode generation + reverse shell)
 - [ ] Improve bash script
-
+- [ ] Docker part
+	- [ ] Add docker explanation on the README.md
+	- [ ] Add the commands in history with add-command + add-history 
 
 ## 👥 Contact <a name="contact"/>
 - Twitter: @MizaruIT (https://twitter.com/MizaruIT)

