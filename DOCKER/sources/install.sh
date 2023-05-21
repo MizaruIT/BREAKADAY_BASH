@@ -349,32 +349,35 @@ function install_android-tools-adb() {
   add-to-list "android-tools-adb,https://developer.android.com/studio/command-line/adb,A collection of tools for debugging Android applications"
 }
 
-# POC
-function install_poc_breakaday() {
-  colorecho "Installing POC utilities"
-  # /POC/LOCALWINDOWS
-  git -C /opt/tools/PENTEST-TOOLKIT/POC/LocalWindows clone https://github.com/Ascotbe/Kernelhub
-  # POC/PROTOCOLS/DATABASE
-  git -C /opt/tools/PENTEST-TOOLKIT/POC/PROTOCOLS/DATABASE clone https://github.com/Jean-Francois-C/Database-Security-Audit
-  git -C /opt/tools/PENTEST-TOOLKIT/POC/PROTOCOLS/DATABASE/Redis clone https://github.com/n0b0dyCN/redis-rogue-server
-  # POC/PROTOCOLS/MAILS/smtp
-  # POC/PROTOCOLS/OMI
-  git -C /opt/tools/PENTEST-TOOLKIT/POC/PROTOCOLS/OMI clone https://github.com/horizon3ai/CVE-2021-38647
-  chmod 755 /opt/tools/PENTEST-TOOLKIT/POC/PROTOCOLS/OMI/CVE-2021-38647/omigod.py
-}
-
 # SCANNER
-function install_scanner_vulns_breakaday() {
+function install_scanner_bluegate(){
   colorecho "Installing SCANNER utilities"
   # => SCANNER/CVE/BlueGate_CVE-2020-0610
   git -C /opt/tools/PENTEST-TOOLKIT/SCANNER/CVE/BlueGate_CVE-2020-0610 clone https://github.com/ly4k/BlueGate
+}
+
+function install_scanner_getgpppassword(){
+  colorecho "Installing SCANNER utilities"
   # => SCANNER/CVE/GPP-Abuse_CVE-2014-1812
   git -C /opt/tools/PENTEST-TOOLKIT/SCANNER/CVE/GPP-Abuse_CVE-2014-1812 clone https://github.com/ShutdownRepo/Get-GPPPassword
+}
+
+
+function install_scanner_printnightmare(){
+  colorecho "Installing SCANNER utilities"
   # => SCANNER/CVE/PrintNightmare_CVE-2021-34527
   git -C /opt/tools/PENTEST-TOOLKIT/SCANNER/CVE/PrintNightmare_CVE-2021-34527 clone https://github.com/ly4k/PrintNightmare
+}
+
+function install_scanner_samaccountnamespoofing(){
+  colorecho "Installing SCANNER utilities"
   # => SCANNER/CVE/sAMAccountNameSpoofing_CVE-2021-42278
   git -C /opt/tools/PENTEST-TOOLKIT/SCANNER/CVE/sAMAccountNameSpoofing_CVE-2021-42278 clone https://github.com/ly4k/Pachine
   chmod +x "/opt/tools/PENTEST-TOOLKIT/SCANNER/CVE/sAMAccountNameSpoofing_CVE-2021-42278/Pachine/pachine.py"
+}
+
+function install_scanner_smbghost(){
+  colorecho "Installing SCANNER utilities"
   # => SCANNER/CVE/SMBGhost_CVE-2020-0796
   git -C /opt/tools/PENTEST-TOOLKIT/SCANNER/CVE/SMBGhost_CVE-2020-0796 clone https://github.com/ZecOps/SMBGhost-SMBleed-scanner
   chmod 755 "/opt/tools/PENTEST-TOOLKIT/SCANNER/CVE/SMBGhost_CVE-2020-0796/SMBGhost-SMBleed-scanner/SMBGhost-SMBleed-scanner.py"
@@ -382,17 +385,31 @@ function install_scanner_vulns_breakaday() {
   git -C /opt/tools/PENTEST-TOOLKIT/SCANNER/CVE/SMBGhost_CVE-2020-0796/SMBGhost clone https://github.com/ly4k/SMBGhost
   chmod 755 "/opt/tools/PENTEST-TOOLKIT/SCANNER/CVE/SMBGhost_CVE-2020-0796/SMBGhost/scanner.py"
   if ! head -n 1 "/opt/tools/PENTEST-TOOLKIT/SCANNER/CVE/SMBGhost_CVE-2020-0796/SMBGhost/scanner.py" | grep -q python3; then sed -i '1 i\#!/usr/bin/env python3' "/opt/tools/PENTEST-TOOLKIT/SCANNER/CVE/SMBGhost_CVE-2020-0796/SMBGhost/scanner.py"; fi
+}
+
+
+function install_scanner_windowsntlmtampering(){
+  colorecho "Installing SCANNER utilities"
   # => SCANNER/CVE/WindowsNTLMTampering_CVE-2019-1040
-  git -C /opt/tools/PENTEST-TOOLKIT/SCANNER/CVE/SMBGhost_CVE-2020-0796/SMBGhost clone https://github.com/fox-it/cve-2019-1040-scanner
+  git -C /opt/tools/PENTEST-TOOLKIT/SCANNER/CVE/WindowsNTLMTampering_CVE/ clone https://github.com/fox-it/cve-2019-1040-scanner
   chmod 755 "/opt/tools/PENTEST-TOOLKIT/SCANNER/CVE/WindowsNTLMTampering_CVE-2019-1040/cve-2019-1040-scanner/scan.py"
+}
+
+function install_scanner_zerologon(){
+  colorecho "Installing SCANNER utilities"
   #### => SCANNER/CVE/ZeroLogon_CVE-2020-1472
   git -C /opt/tools/PENTEST-TOOLKIT/SCANNER/CVE/ZeroLogon_CVE-2020-1472 clone https://github.com/SecuraBV/CVE-2020-1472
   chmod 755 "/opt/tools/PENTEST-TOOLKIT/SCANNER/CVE/ZeroLogon_CVE-2020-1472/CVE-2020-1472/zerologon_tester.py"
-  #### => SCANNER/NETWORK/Responder
-  install_responder
-  # git -C /opt/tools/PENTEST-TOOLKIT/SCANNER/NETWORK/Responder clone https://github.com/lgandx/Responder
+}
+
+function install_scanner_hivenightmare(){
+  colorecho "Installing SCANNER utilities"
   #### => SCANNER/LocalWindows/CVE-2021-363934
   git -C /opt/tools/PENTEST-TOOLKIT/SCANNER/LocalWindows/CVE-2021-363934 clone https://github.com/pyonghe/HiveNightmareChecker
+}
+
+function install_scanner_eternalblue(){
+  colorecho "Installing SCANNER utilities"
   #### => SCANNER/MS-VULNS/EternalBlue_MS17-010
   git -C /opt/tools/PENTEST-TOOLKIT/SCANNER/MS-VULNS/EternalBlue_MS17-010 clone https://github.com/3ndG4me/AutoBlue-MS17-010
   chmod 755 "/opt/tools/PENTEST-TOOLKIT/SCANNER/MS-VULNS/EternalBlue_MS17-010/AutoBlue-MS17-010/eternal_checker.py"
@@ -400,59 +417,23 @@ function install_scanner_vulns_breakaday() {
   git -C /opt/tools/PENTEST-TOOLKIT/SCANNER/MS-VULNS/EternalBlue_MS17-010/MS17-010 clone https://github.com/worawit/MS17-010
   chmod 755 "/opt/tools/PENTEST-TOOLKIT/SCANNER/MS-VULNS/EternalBlue_MS17-010/MS17-010/checker.py"
   if ! head -n 1 "/opt/tools/PENTEST-TOOLKIT/SCANNER/MS-VULNS/EternalBlue_MS17-010/MS17-010/checker.py" | grep -q python3; then sed -i '1 i\#!/usr/bin/env python3' "/opt/tools/PENTEST-TOOLKIT/SCANNER/MS-VULNS/EternalBlue_MS17-010/MS17-010/checker.py"; fi
+}
+
+function install_scanner_kerberoschecksum(){
+  colorecho "Installing SCANNER utilities"
   #### => SCANNER/MS-VULNS/KerberosChecksum_MS14-068
   # TO DO wget
   wget https://raw.githubusercontent.com/SpiderLabs/Responder/master/tools/FindSMB2UPTime.py -P /opt/tools/PENTEST-TOOLKIT/SCANNER/MS-VULNS/KerberosChecksum_MS14-068
   chmod 755 "/opt/tools/PENTEST-TOOLKIT/SCANNER/MS-VULNS/KerberosChecksum_MS14-068/FindSMB2UPTime.py"
   # TO DO : add packets.py from the git
+}
+
+function install_scanner_smbpipes(){
+  colorecho "Installing SCANNER utilities"
   #### => SCANNER/VULNS/SMB-Pipes
   git -C /opt/tools/PENTEST-TOOLKIT/SCANNER/VULNS/SMB-Pipes/Coercer clone https://github.com/p0dalirius/Coercer
   wget https://raw.githubusercontent.com/SecureAuthCorp/impacket/master/examples/rpcdump.py -P /opt/tools/PENTEST-TOOLKIT/SCANNER/VULNS/SMB-Pipes/PrinterBug/
   chmod 755 "/opt/tools/PENTEST-TOOLKIT/SCANNER/VULNS/SMB-Pipes/PrinterBug/rpcdump.py"
-}
-
-# SCANNER
-function install_scanner_protocols_breakaday() {
-  colorecho "Installing SCANNER PROTOCOLS utilities"
-  # => SCANNER/PROTOCOLS/DOMAIN_NAME
-  git -C /opt/tools/PENTEST-TOOLKIT/SCANNER/PROTOCOLS/DOMAIN_NAME clone https://github.com/darkoperator/dnsrecon
-  #### => SCANNER/PROTOCOLS/DATABASE/Oracle
-  git -C /opt/tools/PENTEST-TOOLKIT/SCANNER/PROTOCOLS/DATABASE/Oracle/ clone https://github.com/quentinhardy/odat
-  #### => SCANNER/PROTOCOLS/DATABASE/PostgreSQL
-  git -C /opt/tools/PENTEST-TOOLKIT/SCANNER/PROTOCOLS/DATABASE/PostgreSQL clone https://github.com/attackercan/psql-mass-rce
-  #### => SCANNER/PROTOCOLS/ERL-EPMD/ERLPopper
-  git -C /opt/tools/PENTEST-TOOLKIT/SCANNER/PROTOCOLS/ERL-EPMD clone https://github.com/maikthulhu/ERLPopper
-  #### => SCANNER/PROTOCOLS/ident/
-  git -C /opt/tools/PENTEST-TOOLKIT/SCANNER/PROTOCOLS/ident/ clone https://github.com/pentestmonkey/ident-user-enum
-  #### => SCANNER/PROTOCOLS/LPD/
-  git -C /opt/tools/PENTEST-TOOLKIT/SCANNER/PROTOCOLS/LPD clone https://github.com/RUB-NDS/PRET
-  #### => SCANNER/PROTOCOLS/MDNS/
-  git -C /opt/tools/PENTEST-TOOLKIT/SCANNER/PROTOCOLS/MDNS clone https://github.com/aatlasis/Pholus
-  chmod 755 "/opt/tools/PENTEST-TOOLKIT/SCANNER/PROTOCOLS/MDNS/Pholus/pholus3.py"
-  #### => SCANNER/PROTOCOLS/RMI/
-  git -C /opt/tools/PENTEST-TOOLKIT/SCANNER/PROTOCOLS/RMI clone https://github.com/qtc-de/remote-method-guesser
-  #### => SCANNER/PROTOCOLS/SMART-INSTALL/
-  git -C /opt/tools/PENTEST-TOOLKIT/SCANNER/PROTOCOLS/SMART-INSTALL/ clone https://github.com/Sab0tag3d/SIET
-  if ! head -n 1 "/opt/tools/PENTEST-TOOLKIT/SCANNER/PROTOCOLS/SMART-INSTALL/SIET/siet.py" | grep -qE "*python$"; then sed -i '1 s/python/python2.7/' "/opt/tools/PENTEST-TOOLKIT/SCANNER/PROTOCOLS/SMART-INSTALL/SIET/siet.py"; fi
-  #### => SCANNER/PROTOCOLS/SMB
-  git -C /opt/tools/PENTEST-TOOLKIT/SCANNER/PROTOCOLS/SMB/ clone https://github.com/Porchetta-Industries/CrackMapExec
-  git -C /opt/tools/PENTEST-TOOLKIT/SCANNER/PROTOCOLS/SMB/ clone https://github.com/ShawnDEvans/smbmap
-  #### => SCANNER/PROTOCOLS/VNC/
-  git -C /opt/tools/PENTEST-TOOLKIT/SCANNER/PROTOCOLS/VNC/ clone https://github.com/hegusung/VNCPwn
-  #### => SCANNER/PROTOCOLS/WEBSITES/AEM/
-  git -C /opt/tools/PENTEST-TOOLKIT/SCANNER/PROTOCOLS/WEBSITES/AEM/ clone https://github.com/0ang3el/aem-hacker
-  #### => SCANNER/PROTOCOLS/WEBSITES/all/
-  git -C /opt/tools/PENTEST-TOOLKIT/SCANNER/PROTOCOLS/WEBSITES/all/ clone https://github.com/GerbenJavado/LinkFinder
-  git -C /opt/tools/PENTEST-TOOLKIT/SCANNER/PROTOCOLS/WEBSITES/all/ clone https://github.com/urbanadventurer/WhatWeb
-  git -C /opt/tools/PENTEST-TOOLKIT/SCANNER/PROTOCOLS/WEBSITES/all/ clone https://github.com/drwetter/testssl.sh
-  #### => SCANNER/PROTOCOLS/WEBSITES/REPORTS/
-  git -C /opt/tools/PENTEST-TOOLKIT/SCANNER/PROTOCOLS/WEBSITES/REPORTS/ clone https://github.com/FortyNorthSecurity/EyeWitness
-  #### => SCANNER/PROTOCOLS/WEBSITES/squid/
-  git -C /opt/tools/PENTEST-TOOLKIT/SCANNER/PROTOCOLS/WEBSITES/squid clone https://github.com/aancw/spose
-  chmod 755 "/opt/tools/PENTEST-TOOLKIT/SCANNER/PROTOCOLS/WEBSITES/squid/spose/spose.py"
-  #### => SCANNER/PROTOCOLS/X
-  git -C /opt/tools/PENTEST-TOOLKIT/SCANNER/PROTOCOLS/X clone https://github.com/mnp/xspy
-  chmod 755 "/opt/tools/PENTEST-TOOLKIT/SCANNER/PROTOCOLS/X/xspy/xspy.c"
 }
 
 #####################
@@ -1207,41 +1188,68 @@ create_symlinks_poc_breakaday(){
   ########################
   # => POC
   ########################
-	command_bin=bluegate_cve20200610_poc; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/bluegate_cve20200610_poc.py" "/usr/bin/$command_bin"; fi
-	command_bin=eternalblue_ms17010_poc; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/eternalblue_ms17010_poc.py" "/usr/bin/$command_bin"; fi
-	command_bin=netapi_cve20084250; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/netapi_cve20084250.py" "/usr/bin/$command_bin"; fi
+	command_bin=poc_bluegate_cve20200610; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/bluegate_cve20200610_poc.py" "/usr/bin/$command_bin"; fi
+	command_bin=poc_eternalblue_ms17010; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/eternalblue_ms17010_poc.py" "/usr/bin/$command_bin"; fi
+	command_bin=poc_netapi_cve20084250; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/netapi_cve20084250.py" "/usr/bin/$command_bin"; fi
 	# command_bin=ntlmrelayx; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/ntlmrelayx.py" "/usr/bin/$command_bin"; fi
-	command_bin=petitpotam_poc; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/petitpotam_poc.py" "/usr/bin/$command_bin"; fi
-	command_bin=printnightmare_cve20211675_poc; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/printnightmare_cve20211675_poc.py" "/usr/bin/$command_bin"; fi
-	command_bin=sAMAccountName_cve202142278_poc; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/sAMAccountName_cve202142278_poc.py" "/usr/bin/$command_bin"; fi
-	command_bin=smbghost_cve20200796_poc; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/smbghost_cve20200796_poc.py" "/usr/bin/$command_bin"; fi
-	command_bin=zerologon_cve20201472_poc; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/zerologon_cve20201472_poc.py" "/usr/bin/$command_bin"; fi
+	command_bin=poc_petitpotam; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/petitpotam_poc.py" "/usr/bin/$command_bin"; fi
+	command_bin=poc_printnightmare_cve20211675; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/printnightmare_cve20211675_poc.py" "/usr/bin/$command_bin"; fi
+	command_bin=poc_sAMAccountName_cve202142278; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/sAMAccountName_cve202142278_poc.py" "/usr/bin/$command_bin"; fi
+	command_bin=poc_smbghost_cve20200796; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/smbghost_cve20200796_poc.py" "/usr/bin/$command_bin"; fi
+	command_bin=poc_zerologon_cve20201472; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/zerologon_cve20201472_poc.py" "/usr/bin/$command_bin"; fi
+
+	# command_bin=bluegate_cve20200610_poc; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/bluegate_cve20200610_poc.py" "/usr/bin/$command_bin"; fi
+	# command_bin=eternalblue_ms17010_poc; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/eternalblue_ms17010_poc.py" "/usr/bin/$command_bin"; fi
+	# command_bin=netapi_cve20084250; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/netapi_cve20084250.py" "/usr/bin/$command_bin"; fi
+	# # command_bin=ntlmrelayx; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/ntlmrelayx.py" "/usr/bin/$command_bin"; fi
+	# command_bin=petitpotam_poc; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/petitpotam_poc.py" "/usr/bin/$command_bin"; fi
+	# command_bin=printnightmare_cve20211675_poc; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/printnightmare_cve20211675_poc.py" "/usr/bin/$command_bin"; fi
+	# command_bin=sAMAccountName_cve202142278_poc; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/sAMAccountName_cve202142278_poc.py" "/usr/bin/$command_bin"; fi
+	# command_bin=smbghost_cve20200796_poc; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/smbghost_cve20200796_poc.py" "/usr/bin/$command_bin"; fi
+	# command_bin=zerologon_cve20201472_poc; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/zerologon_cve20201472_poc.py" "/usr/bin/$command_bin"; fi
 }
 
 create_symlinks_scanner_breakaday(){
   ########################
   # => SCANNER
   ########################
-	command_bin=bluegate_cve20200610_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/bluegate_cve20200610_scanner.py" "/usr/bin/$command_bin"; fi
-	command_bin=eternalblue_ms17010_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/eternalblue_ms17010_scanner.py" "/usr/bin/$command_bin"; fi
-	command_bin=getgppcreds_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/getgppcreds_scanner.py" "/usr/bin/$command_bin"; fi
-	command_bin=micRA_cve20191040_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/micRA_cve20191040_scanner.py" "/usr/bin/$command_bin"; fi
-	command_bin=netapi_cve20084250_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/netapi_cve20084250_scanner.py" "/usr/bin/$command_bin"; fi
-	command_bin=petitpotam_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/petitpotam_scanner.py" "/usr/bin/$command_bin"; fi
-	command_bin=printnightmare_cve20211675_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/printnightmare_cve20211675_scanner.py" "/usr/bin/$command_bin"; fi
-	command_bin=rpcdump_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/rpcdump_scanner.py" "/usr/bin/$command_bin"; fi
-	command_bin=sAMAccountName_cve202142278_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/sAMAccountName_cve202142278_scanner.py" "/usr/bin/$command_bin"; fi
-	command_bin=smbghost_cve20200796_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/smbghost_cve20200796_scanner.py" "/usr/bin/$command_bin"; fi
-	command_bin=smbleed_cve20201206_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/smbleed_cve20201206_scanner.py" "/usr/bin/$command_bin"; fi
-	command_bin=smbsigning_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/smbsigning_scanner.py" "/usr/bin/$command_bin"; fi
-	command_bin=zerologon_cve20201472_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/zerologon_cve20201472_scanner.py" "/usr/bin/$command_bin"; fi
+	command_bin=scanner_bluegate_cve20200610; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/bluegate_cve20200610_scanner.py" "/usr/bin/$command_bin"; fi
+	command_bin=scanner_eternalblue_ms17010; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/eternalblue_ms17010_scanner.py" "/usr/bin/$command_bin"; fi
+	command_bin=scanner_getgppcreds; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/getgppcreds_scanner.py" "/usr/bin/$command_bin"; fi
+	command_bin=scanner_micRA_cve20191040; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/micRA_cve20191040_scanner.py" "/usr/bin/$command_bin"; fi
+	command_bin=scanner_netapi_cve20084250; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/netapi_cve20084250_scanner.py" "/usr/bin/$command_bin"; fi
+	command_bin=scanner_petitpotam; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/petitpotam_scanner.py" "/usr/bin/$command_bin"; fi
+	command_bin=scanner_printnightmare_cve20211675; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/printnightmare_cve20211675_scanner.py" "/usr/bin/$command_bin"; fi
+	command_bin=scanner_rpcdump; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/rpcdump_scanner.py" "/usr/bin/$command_bin"; fi
+	command_bin=scanner_sAMAccountName_cve202142278; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/sAMAccountName_cve202142278_scanner.py" "/usr/bin/$command_bin"; fi
+	command_bin=scanner_smbghost_cve20200796; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/smbghost_cve20200796_scanner.py" "/usr/bin/$command_bin"; fi
+	command_bin=scanner_smbleed_cve20201206; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/smbleed_cve20201206_scanner.py" "/usr/bin/$command_bin"; fi
+	command_bin=scanner_smbsigning; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/smbsigning_scanner.py" "/usr/bin/$command_bin"; fi
+	command_bin=scanner_zerologon_cve20201472; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/zerologon_cve20201472_scanner.py" "/usr/bin/$command_bin"; fi
 
-  ########################
-  # => SCANNER_AD
-  ########################
-	command_bin=get_domain-infos; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER_AD/get_domain-infos.py" "/usr/bin/$command_bin"; fi
-	command_bin=get_hostname; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER_AD/get_hostname.py" "/usr/bin/$command_bin"; fi
-	command_bin=windapsearch; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER_AD/windapsearch.py" "/usr/bin/$command_bin"; fi
+  # ########################
+  # # => SCANNER
+  # ########################
+	# command_bin=bluegate_cve20200610_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/bluegate_cve20200610_scanner.py" "/usr/bin/$command_bin"; fi
+	# command_bin=eternalblue_ms17010_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/eternalblue_ms17010_scanner.py" "/usr/bin/$command_bin"; fi
+	# command_bin=getgppcreds_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/getgppcreds_scanner.py" "/usr/bin/$command_bin"; fi
+	# command_bin=micRA_cve20191040_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/micRA_cve20191040_scanner.py" "/usr/bin/$command_bin"; fi
+	# command_bin=netapi_cve20084250_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/netapi_cve20084250_scanner.py" "/usr/bin/$command_bin"; fi
+	# command_bin=petitpotam_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/petitpotam_scanner.py" "/usr/bin/$command_bin"; fi
+	# command_bin=printnightmare_cve20211675_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/printnightmare_cve20211675_scanner.py" "/usr/bin/$command_bin"; fi
+	# command_bin=rpcdump_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/rpcdump_scanner.py" "/usr/bin/$command_bin"; fi
+	# command_bin=sAMAccountName_cve202142278_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/sAMAccountName_cve202142278_scanner.py" "/usr/bin/$command_bin"; fi
+	# command_bin=smbghost_cve20200796_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/smbghost_cve20200796_scanner.py" "/usr/bin/$command_bin"; fi
+	# command_bin=smbleed_cve20201206_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/smbleed_cve20201206_scanner.py" "/usr/bin/$command_bin"; fi
+	# command_bin=smbsigning_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/smbsigning_scanner.py" "/usr/bin/$command_bin"; fi
+	# command_bin=zerologon_cve20201472_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/zerologon_cve20201472_scanner.py" "/usr/bin/$command_bin"; fi
+
+  # ########################
+  # # => SCANNER_AD
+  # ########################
+	# command_bin=get_domain-infos; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER_AD/get_domain-infos.py" "/usr/bin/$command_bin"; fi
+	# command_bin=get_hostname; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER_AD/get_hostname.py" "/usr/bin/$command_bin"; fi
+	# command_bin=windapsearch; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER_AD/windapsearch.py" "/usr/bin/$command_bin"; fi
 }
 
 
