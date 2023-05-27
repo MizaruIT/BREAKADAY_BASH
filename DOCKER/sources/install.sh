@@ -73,7 +73,6 @@ function post_install_clean() {
   # Function used to clean up post-install files
   colorecho "Cleaning..."
   updatedb
-  source ~/.bashrc
   rm -rfv /tmp/*
   echo "# -=-=-=-=-=-=-=- YOUR COMMANDS BELOW -=-=-=-=-=-=-=- #" >> ~/.zsh_history
 }
@@ -387,7 +386,6 @@ function install_scanner_smbghost(){
   if ! head -n 1 "/opt/tools/PENTEST-TOOLKIT/SCANNER/CVE/SMBGhost_CVE-2020-0796/SMBGhost/scanner.py" | grep -q python3; then sed -i '1 i\#!/usr/bin/env python3' "/opt/tools/PENTEST-TOOLKIT/SCANNER/CVE/SMBGhost_CVE-2020-0796/SMBGhost/scanner.py"; fi
 }
 
-
 function install_scanner_windowsntlmtampering(){
   colorecho "Installing SCANNER utilities"
   # => SCANNER/CVE/WindowsNTLMTampering_CVE-2019-1040
@@ -514,7 +512,6 @@ function install_ldapdomaindump() {
   add-to-list "ldapdomaindump,https://github.com/dirkjanm/ldapdomaindump,A tool for dumping domain data from an LDAP service"
 }
 
-
 function install_ldapsearch() {
   colorecho "Installing ldapsearch"
   fapt ldap-utils
@@ -587,7 +584,6 @@ function install_bloodhound() {
   # TODO add-test-command
   add-to-list "bloodhound,https://github.com/BloodHoundAD/BloodHound,Active Directory security tool for reconnaissance and attacking AD environments."
 }
-
 
 function install_bloodhound-import() {
   colorecho "Installing bloodhound-import"
@@ -729,7 +725,6 @@ function install_adidnsdump() {
   add-to-list "adidnsdump,https://github.com/dirkjanm/adidnsdump,Active Directory Integrated DNS dump utility"
 }
 
-
 function install_petitpotam() {
   colorecho "Installing PetitPotam"
   git -C /opt/tools/ clone https://github.com/ly4k/PetitPotam
@@ -775,73 +770,6 @@ function install_shadowcoerce() {
   add-history shadowcoerce
   add-test-command "shadowcoerce.py --help"
   add-to-list "shadowcoerce,https://github.com/ShutdownRepo/shadowcoerce,Utility for bypassing the Windows Defender antivirus by hiding a process within a legitimate process."
-}
-
-#####################
-### => WIFI
-#####################
-function install_wifite2() {
-  colorecho "Installing wifite2"
-  git -C /opt/tools/ clone https://github.com/derv82/wifite2.git
-  cd /opt/tools/wifite2/ || exit
-  python3 setup.py install
-  add-test-command "wifite --help"
-  add-to-list "wifite2,https://github.com/derv82/wifite2,Script for auditing wireless networks."
-}
-
-function install_aircrack-ng() {
-  colorecho "Installing aircrack-ng"
-  fapt aircrack-ng
-  add-aliases aircrack-ng
-  add-history aircrack-ng
-  add-test-command "aircrack-ng --help"
-  add-to-list "aircrack-ng,https://www.aircrack-ng.org,A suite of tools for wireless penetration testing"
-}
-
-function install_bettercap() {
-  colorecho "Installing Bettercap"
-  apt-get -y install libpcap-dev libusb-1.0-0-dev libnetfilter-queue-dev
-  go install -v github.com/bettercap/bettercap@latest
-  /root/go/bin/bettercap -eval "caplets.update; ui.update; q"
-  sed -i 's/set api.rest.username user/set api.rest.username bettercap/g' /usr/local/share/bettercap/caplets/http-ui.cap
-  sed -i 's/set api.rest.password pass/set api.rest.password exegol4thewin/g' /usr/local/share/bettercap/caplets/http-ui.cap
-  sed -i 's/set api.rest.username user/set api.rest.username bettercap/g' /usr/local/share/bettercap/caplets/https-ui.cap
-  sed -i 's/set api.rest.password pass/set api.rest.password exegol4thewin/g' /usr/local/share/bettercap/caplets/https-ui.cap
-  add-aliases bettercap
-  add-test-command "bettercap --version"
-  add-to-list "bettercap,https://github.com/bettercap/bettercap,The Swiss Army knife for 802.11, BLE, and Ethernet networks reconnaissance and MITM attacks."
-}
-
-function install_hcxtools() {
-  colorecho "Installing hcxtools"
-  fapt libcurl4 libcurl4-openssl-dev libssl-dev openssl pkg-config
-  git -C /opt/tools/ clone https://github.com/ZerBea/hcxtools
-  cd /opt/tools/hcxtools/ || exit
-  # Checking out to specific commit is a temporary fix to the project no compiling anymore.
-  # FIXME whenever possible to stay up to date with project (https://github.com/ZerBea/hcxtools/issues/233)
-  git checkout 5937d2ad9d021f3b5e2edd55d79439b8485d3222
-  make
-  make install
-  add-history hcxtools
-  add-test-command "hcxpcapngtool --version"
-  add-test-command "hcxhashtool --version"
-  add-to-list "hcxtools,https://github.com/ZerBea/hcxtools,Tools for capturing and analyzing packets from WLAN devices."
-}
-
-function install_hcxdumptool() {
-  colorecho "Installing hcxdumptool"
-  apt-get -y install libcurl4-openssl-dev libssl-dev
-  git -C /opt/tools/ clone https://github.com/ZerBea/hcxdumptool
-  cd /opt/tools/hcxdumptool || exit
-  # Checking out to specific commit is a temporary fix to the project no compiling anymore.
-  # FIXME whenever possible to stay up to date with project (https://github.com/ZerBea/hcxdumptool/issues/232)
-  git checkout 56d078de4d6f5cef07b378707ab478fde03168c0
-  make
-  make install
-  ln -s /usr/local/bin/hcxpcapngtool /usr/local/bin/hcxpcaptool
-  add-history hcxdumptool
-  add-test-command "hcxdumptool --version"
-  add-to-list "hcxdumptool,https://github.com/ZerBea/hcxdumptool,Small tool to capture packets from wlan devices."
 }
 
 #####################

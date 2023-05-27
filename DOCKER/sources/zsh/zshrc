@@ -48,7 +48,6 @@ export PATH=$GOPATH/bin:/usr/local/go/bin:$PATH
 
 source /opt/.breakaday_aliases
 source $HOME/.cargo/env
-source ~/.bashrc
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
