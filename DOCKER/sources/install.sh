@@ -8,10 +8,6 @@
 # 2) DOWNLOAD UTILITIES 
 # exemples : 
 # - For AD : package_base, package_advanced_ad, package_base_breakaday, package_exploit_ad, package_wordlists, package_cracking, package_network, package_wifi, etc.
-# - For OSINT : 
-# - For code review : 
-# - For architecture analysis : 
-# 3) CREATION SYMLINKS
 
 
 RED='\033[1;31m'
@@ -845,76 +841,155 @@ function install_tcpdump() {
   add-to-list "tcpdump,https://github.com/the-tcpdump-group/tcpdump,a powerful command-line packet analyzer for Unix-like systems"
 }
 
+###############################
 # INSTALL POC & SCANNER
-function install_scanner_ad() {
-  colorecho "Installing SCANNER"
+###############################
+function install_scanner_bluegate_cve(){
+  colorecho "Installing SCANNER BlueGate"
   # Bluegate
-  add-test-command "bluegate_cve20200610_scanner"
-  add-history bluegate_cve20200610_scanner
-  # EternalBlue
-  add-test-command "eternalblue_ms17010_scanner"
-  add-history eternalblue_ms17010_scanner
-  # GETGPPP
-  add-test-command "getgppcreds_scanner"
-  add-history getgppcreds_scanner
-  # MicRA
-  add-test-command "micRA_cve20191040_scanner"
-  add-history micRA_cve20191040_scanner
-  # NetAPI
-  add-test-command "netapi_cve20084250_scanner"
-  add-history netapi_cve20084250_scanner
-  # PetitPotam
-  add-test-command "petitpotam_scanner"
-  add-history petitpotam_scanner
-  # PrintNightmare
-  add-test-command "printnightmare_cve20211675_scanner "
-  add-history printnightmare_cve20211675_scanner
-  # RPCDump
-  add-test-command "rpcdump_scanner "
-  add-history rpcdump_scanner
-  # sAMAccountName
-  add-test-command "sAMAccountName_cve202142278_scanner "
-  add-history sAMAccountName_cve202142278_scanner
-  # SMB Ghost
-  add-test-command "smbghost_cve20200796_scanner "
-  add-history smbghost_cve20200796_scanner
-  # SMB Bleed
-  add-test-command "smbleed_cve20201206_scanner "
-  add-history smbleed_cve20201206_scanner
-  # SMB Signing
-  add-test-command "smbsigning_scanner "
-  add-history smbsigning_scanner
-  # Zero Logon
-  add-test-command "zerologon_cve20201472_scanner"
-  add-history zerologon_cve20201472_scanner
+  add-aliases "scanner_bluegate_cve20200610"
+  add-history scanner_bluegate_cve20200610
 }
 
-function install_poc_ad() {
-  colorecho "Installing POC"
-  # Bluegate
-  add-test-command "bluegate_cve20200610_poc"
-  add-history bluegate_cve20200610_poc
+function install_scanner_eternablue_cve(){
+  colorecho "Installing SCANNER EternalBlue"
   # EternalBlue
-  add-test-command "eternalblue_ms17010_poc"
-  add-history eternalblue_ms17010_poc
+  add-aliases "eternalblue_ms17010"
+  add-history eternalblue_ms17010
+}
+
+function install_scanner_getgpp(){
+  colorecho "Installing SCANNER GetGPP"
+  # GETGPPP
+  add-aliases "scanner_getgppcreds"
+  add-history scanner_getgppcreds
+}
+
+function install_scanner_micra_cve(){
+  colorecho "Installing SCANNER micRA "
+  # MicRA
+  add-aliases "micRA_cve20191040"
+  add-history micRA_cve20191040
+}
+
+function install_scanner_netapi_cve(){
+  colorecho "Installing SCANNER NetAPI"
   # NetAPI
-  add-test-command "netapi_cve20084250_poc"
-  add-history netapi_cve20084250_poc
+  add-aliases "scanner_netapi_cve20084250"
+  add-history scanner_netapi_cve20084250
+}
+
+function install_scanner_petitpotam(){
+  colorecho "Installing SCANNER PetitPotam"
   # PetitPotam
-  add-test-command "petitpotam_poc"
-  add-history petitpotam_poc
+  add-aliases "scanner_petitpotam"
+  add-history scanner_petitpotam
+}
+
+function install_scanner_printnightmare_cve(){
+  colorecho "Installing SCANNER PrintNightmare"
   # PrintNightmare
-  add-test-command "printnightmare_cve20211675_poc "
-  add-history printnightmare_cve20211675_poc
+  add-aliases "scanner_printnightmare_cve20211675 "
+  add-history scanner_printnightmare_cve20211675
+}
+
+function install_scanner_rpcdump(){
+  colorecho "Installing SCANNER RPCDump"
+  # RPCDump
+  add-aliases "scanner_rpcdump "
+  add-history scanner_rpcdump
+}
+
+function install_scanner_samaacountname_cve(){
+  colorecho "Installing SCANNER sAMAccountName"
   # sAMAccountName
-  add-test-command "sAMAccountName_cve202142278_poc "
-  add-history sAMAccountName_cve202142278_poc
+  add-aliases "scanner_sAMAccountName_cve202142278 "
+  add-history scanner_sAMAccountName_cve202142278
+}
+
+function install_scanner_smbghost_cve(){
+  colorecho "Installing SCANNER SMBGhost"
   # SMB Ghost
-  add-test-command "smbghost_cve20200796_poc "
-  add-history smbghost_cve20200796_poc
+  add-aliases "scanner_smbghost_cve20200796 "
+  add-history scanner_smbghost_cve20200796
+}
+
+function install_scanner_smbbleed_cve(){
+  colorecho "Installing SCANNER SMBBleed" 
+  # SMB Bleed
+  add-aliases "scanner_smbleed_cve20201206 "
+  add-history scanner_smbleed_cve20201206
+}
+
+function install_scanner_smbsigning(){
+  colorecho "Installing SCANNER SMB signing" 
+  # SMB Signing
+  add-aliases "scanner_smbsigning "
+  add-history scanner_smbsigning
+}
+
+function install_scanner_zerologon_cve(){
+  colorecho "Installing SCANNER ZeroLogon"
   # Zero Logon
-  add-test-command "zerologon_cve20201472_poc"
-  add-history zerologon_cve20201472_poc
+  add-aliases "scanner_zerologon_cve20201472"
+  add-history scanner_zerologon_cve20201472
+}
+
+### POC
+function install_poc_bluegate() {
+  colorecho "Installing POC BlueGate"
+  # Bluegate
+  add-aliases "poc_bluegate_cve20200610"
+  add-history poc_bluegate_cve20200610
+}
+
+function install_poc_eternalblue() {
+  colorecho "Installing POC EternalBlue"
+  # EternalBlue
+  add-aliases "poc_eternalblue_ms17010"
+  add-history poc_eternalblue_ms17010
+}
+
+function install_poc_netapi() {
+  colorecho "Installing POC NetAPI"
+  # NetAPI
+  add-aliases "poc_netapi_cve20084250"
+  add-history poc_netapi_cve20084250
+}
+
+function install_poc_petitpotam() {
+  colorecho "Installing POC PetitPotam"
+  # PetitPotam
+  add-aliases "poc_petitpotam"
+  add-history poc_petitpotam
+}
+
+function install_poc_printnightmare() {
+  colorecho "Installing POC PrintNightmare"
+  # PrintNightmare
+  add-aliases "poc_printnightmare_cve20211675 "
+  add-history poc_printnightmare_cve20211675
+}
+
+function install_poc_samaacountname() {
+  colorecho "Installing POC sAMAccountName"
+  # sAMAccountName
+  add-aliases "poc_sAMAccountName_cve202142278 "
+  add-history poc_sAMAccountName_cve202142278
+}
+
+function install_poc_smbghost() {
+  colorecho "Installing POC SMB Ghost"
+  # SMB Ghost
+  add-aliases "poc_smbghost_cve20200796 "
+  add-history poc_smbghost_cve20200796
+}
+
+function install_poc_zerologon() {
+  colorecho "Installing POC ZeroLogon" 
+  # Zero Logon
+  add-aliases "poc_zerologon_cve20201472"
+  add-history poc_zerologon_cve20201472
 }
 
 
@@ -1038,6 +1113,14 @@ function install_bruteforce-luks() {
   add-to-list "bruteforce-luks,https://github.com/glv2/bruteforce-luks,A tool to help recover encrypted LUKS2 containers"
 }
 
+##########################
+## => MY BREAKADAY TOOLS
+##########################
+function install_breakaday() {
+  add-aliases breakaday
+  add-history breakaday
+}
+
 ######################################################
 # GLOBAL FUNCTIONS FOR CREATING ENVIRONMENT
 ######################################################
@@ -1109,76 +1192,6 @@ function creation_environment_breakaday() {
 	if [ ! -d "/workspace/PENTEST/RESULTS/" ]; then mkdir "/workspace/PENTEST/RESULTS/"; fi
 }
 
-######################################################
-# GLOBAL FUNCTIONS FOR CREATING SYMLINK
-######################################################
-create_symlinks_poc_breakaday(){
-  ########################
-  # => POC
-  ########################
-	command_bin=poc_bluegate_cve20200610; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/bluegate_cve20200610_poc.py" "/usr/bin/$command_bin"; fi
-	command_bin=poc_eternalblue_ms17010; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/eternalblue_ms17010_poc.py" "/usr/bin/$command_bin"; fi
-	command_bin=poc_netapi_cve20084250; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/netapi_cve20084250.py" "/usr/bin/$command_bin"; fi
-	# command_bin=ntlmrelayx; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/ntlmrelayx.py" "/usr/bin/$command_bin"; fi
-	command_bin=poc_petitpotam; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/petitpotam_poc.py" "/usr/bin/$command_bin"; fi
-	command_bin=poc_printnightmare_cve20211675; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/printnightmare_cve20211675_poc.py" "/usr/bin/$command_bin"; fi
-	command_bin=poc_sAMAccountName_cve202142278; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/sAMAccountName_cve202142278_poc.py" "/usr/bin/$command_bin"; fi
-	command_bin=poc_smbghost_cve20200796; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/smbghost_cve20200796_poc.py" "/usr/bin/$command_bin"; fi
-	command_bin=poc_zerologon_cve20201472; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/zerologon_cve20201472_poc.py" "/usr/bin/$command_bin"; fi
-
-	# command_bin=bluegate_cve20200610_poc; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/bluegate_cve20200610_poc.py" "/usr/bin/$command_bin"; fi
-	# command_bin=eternalblue_ms17010_poc; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/eternalblue_ms17010_poc.py" "/usr/bin/$command_bin"; fi
-	# command_bin=netapi_cve20084250; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/netapi_cve20084250.py" "/usr/bin/$command_bin"; fi
-	# # command_bin=ntlmrelayx; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/ntlmrelayx.py" "/usr/bin/$command_bin"; fi
-	# command_bin=petitpotam_poc; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/petitpotam_poc.py" "/usr/bin/$command_bin"; fi
-	# command_bin=printnightmare_cve20211675_poc; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/printnightmare_cve20211675_poc.py" "/usr/bin/$command_bin"; fi
-	# command_bin=sAMAccountName_cve202142278_poc; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/sAMAccountName_cve202142278_poc.py" "/usr/bin/$command_bin"; fi
-	# command_bin=smbghost_cve20200796_poc; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/smbghost_cve20200796_poc.py" "/usr/bin/$command_bin"; fi
-	# command_bin=zerologon_cve20201472_poc; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/POC/zerologon_cve20201472_poc.py" "/usr/bin/$command_bin"; fi
-}
-
-create_symlinks_scanner_breakaday(){
-  ########################
-  # => SCANNER
-  ########################
-	command_bin=scanner_bluegate_cve20200610; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/bluegate_cve20200610_scanner.py" "/usr/bin/$command_bin"; fi
-	command_bin=scanner_eternalblue_ms17010; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/eternalblue_ms17010_scanner.py" "/usr/bin/$command_bin"; fi
-	command_bin=scanner_getgppcreds; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/getgppcreds_scanner.py" "/usr/bin/$command_bin"; fi
-	command_bin=scanner_micRA_cve20191040; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/micRA_cve20191040_scanner.py" "/usr/bin/$command_bin"; fi
-	command_bin=scanner_netapi_cve20084250; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/netapi_cve20084250_scanner.py" "/usr/bin/$command_bin"; fi
-	command_bin=scanner_petitpotam; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/petitpotam_scanner.py" "/usr/bin/$command_bin"; fi
-	command_bin=scanner_printnightmare_cve20211675; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/printnightmare_cve20211675_scanner.py" "/usr/bin/$command_bin"; fi
-	command_bin=scanner_rpcdump; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/rpcdump_scanner.py" "/usr/bin/$command_bin"; fi
-	command_bin=scanner_sAMAccountName_cve202142278; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/sAMAccountName_cve202142278_scanner.py" "/usr/bin/$command_bin"; fi
-	command_bin=scanner_smbghost_cve20200796; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/smbghost_cve20200796_scanner.py" "/usr/bin/$command_bin"; fi
-	command_bin=scanner_smbleed_cve20201206; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/smbleed_cve20201206_scanner.py" "/usr/bin/$command_bin"; fi
-	command_bin=scanner_smbsigning; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/smbsigning_scanner.py" "/usr/bin/$command_bin"; fi
-	command_bin=scanner_zerologon_cve20201472; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/zerologon_cve20201472_scanner.py" "/usr/bin/$command_bin"; fi
-
-  # ########################
-  # # => SCANNER
-  # ########################
-	# command_bin=bluegate_cve20200610_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/bluegate_cve20200610_scanner.py" "/usr/bin/$command_bin"; fi
-	# command_bin=eternalblue_ms17010_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/eternalblue_ms17010_scanner.py" "/usr/bin/$command_bin"; fi
-	# command_bin=getgppcreds_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/getgppcreds_scanner.py" "/usr/bin/$command_bin"; fi
-	# command_bin=micRA_cve20191040_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/micRA_cve20191040_scanner.py" "/usr/bin/$command_bin"; fi
-	# command_bin=netapi_cve20084250_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/netapi_cve20084250_scanner.py" "/usr/bin/$command_bin"; fi
-	# command_bin=petitpotam_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/petitpotam_scanner.py" "/usr/bin/$command_bin"; fi
-	# command_bin=printnightmare_cve20211675_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/printnightmare_cve20211675_scanner.py" "/usr/bin/$command_bin"; fi
-	# command_bin=rpcdump_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/rpcdump_scanner.py" "/usr/bin/$command_bin"; fi
-	# command_bin=sAMAccountName_cve202142278_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/sAMAccountName_cve202142278_scanner.py" "/usr/bin/$command_bin"; fi
-	# command_bin=smbghost_cve20200796_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/smbghost_cve20200796_scanner.py" "/usr/bin/$command_bin"; fi
-	# command_bin=smbleed_cve20201206_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/smbleed_cve20201206_scanner.py" "/usr/bin/$command_bin"; fi
-	# command_bin=smbsigning_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/smbsigning_scanner.py" "/usr/bin/$command_bin"; fi
-	# command_bin=zerologon_cve20201472_scanner; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER/zerologon_cve20201472_scanner.py" "/usr/bin/$command_bin"; fi
-
-  # ########################
-  # # => SCANNER_AD
-  # ########################
-	# command_bin=get_domain-infos; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER_AD/get_domain-infos.py" "/usr/bin/$command_bin"; fi
-	# command_bin=get_hostname; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER_AD/get_hostname.py" "/usr/bin/$command_bin"; fi
-	# command_bin=windapsearch; if ! command -v "$command_bin" &> /dev/null; then sudo ln -sf "/opt/tools/SCANNER_AD/windapsearch.py" "/usr/bin/$command_bin"; fi
-}
 
 
 ######################################################
@@ -1418,10 +1431,35 @@ function package_wifi() {
   install_hcxdumptool             # Small tool to capture packets from wlan devices
 }
 
+
+################
+# SCANNER & POC 
+################
 function package_tools_breakaday() {
-  install_scanner_ad
-  install_poc_ad
-  true
+  # SCANNER
+  install_scanner_bluegate_cve
+  install_scanner_eternablue_cve
+  install_scanner_getgpp
+  install_scanner_micra_cve
+  install_scanner_netapi_cve
+  install_scanner_petitpotam
+  install_scanner_printnightmare_cve
+  install_scanner_rpcdump
+  install_scanner_samaacountname_cve
+  install_scanner_smbghost_cve
+  install_scanner_smbbleed_cve
+  install_scanner_smbsigning
+  install_scanner_zerologon_cve
+
+  # POC
+  install_poc_bluegate
+  install_poc_eternalblue
+  install_poc_netapi
+  install_poc_petitpotam
+  install_poc_printnightmare
+  install_poc_samaacountname
+  install_poc_smbghost
+  install_poc_zerologon
 }
 
 # Entry point for the installation
