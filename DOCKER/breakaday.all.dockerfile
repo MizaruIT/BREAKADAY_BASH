@@ -34,14 +34,11 @@ RUN /root/sources/install.sh package_advanced_ad
 
 # Specific utilities & tools (PENTEST AD)
 RUN /root/sources/install.sh package_tools_breakaday
-RUN /root/sources/install.sh create_symlinks_scanner_breakaday
-RUN /root/sources/install.sh create_symlinks_poc_breakaday
 
 # Specific utilities & tools (GENERAL)
 RUN /root/sources/install.sh package_wordlists
 RUN /root/sources/install.sh package_cracking
 RUN /root/sources/install.sh package_network
-RUN /root/sources/install.sh package_wifi
 
 
 RUN /root/sources/install.sh post_install_clean

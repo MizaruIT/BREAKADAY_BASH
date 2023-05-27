@@ -7,7 +7,7 @@
 # - creation_environment_breakaday
 # 2) DOWNLOAD UTILITIES 
 # exemples : 
-# - For AD : package_base, package_advanced_ad, package_base_breakaday, package_exploit_ad, package_wordlists, package_cracking, package_network, package_wifi, etc.
+# - For AD : package_base, package_advanced_ad, package_base_breakaday, package_exploit_ad, package_wordlists, package_cracking, package_network, etc.
 
 
 RED='\033[1;31m'
@@ -854,8 +854,8 @@ function install_scanner_bluegate_cve(){
 function install_scanner_eternablue_cve(){
   colorecho "Installing SCANNER EternalBlue"
   # EternalBlue
-  add-aliases "eternalblue_ms17010"
-  add-history eternalblue_ms17010
+  add-aliases "scanner_eternalblue_ms17010"
+  add-history scanner_eternalblue_ms17010
 }
 
 function install_scanner_getgpp(){
@@ -868,8 +868,8 @@ function install_scanner_getgpp(){
 function install_scanner_micra_cve(){
   colorecho "Installing SCANNER micRA "
   # MicRA
-  add-aliases "micRA_cve20191040"
-  add-history micRA_cve20191040
+  add-aliases "scanner_micRA_cve20191040"
+  add-history scanner_micRA_cve20191040
 }
 
 function install_scanner_netapi_cve(){
@@ -1321,7 +1321,7 @@ function package_base(){
 # RUN /root/sources/install.sh package_wordlists
 # RUN /root/sources/install.sh package_cracking
 # RUN /root/sources/install.sh package_network
-# RUN /root/sources/install.sh package_wifi
+
 #######################
 ## Package dedicated to the BREAKADAY tools
 function package_base_breakaday() {
@@ -1420,15 +1420,6 @@ function package_network() {
   install_tcpdump                 # Capture TCP traffic
   install_iptables                # iptables for the win
   install_traceroute              # ping ping
-}
-# Package dedicated to wifi pentest tools
-function package_wifi() {
-  set_go_env
-  install_wifite2                 # Retrieving password of a wireless access point (router)
-  install_aircrack-ng             # WiFi security auditing tools suite
-  install_bettercap               # MiTM tool
-  install_hcxtools                # Tools for PMKID and other wifi attacks
-  install_hcxdumptool             # Small tool to capture packets from wlan devices
 }
 
 
