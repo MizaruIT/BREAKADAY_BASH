@@ -1,2 +1,0 @@
-scanner_eternalblue_ms17010 -p "$TARGET_PORT" "$IP"
-scanner_eternalblue_ms17010 -p "$TARGET_PORT" "$DOMAIN_NAME"/"$USERNAME":"$PASSWORD"@"$TARGET_IP" 

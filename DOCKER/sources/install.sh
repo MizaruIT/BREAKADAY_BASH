@@ -866,7 +866,7 @@ function install_scanner_getgpp(){
 }
 
 function install_scanner_micra_cve(){
-  colorecho "Installing SCANNER micRA "
+  colorecho "Installing SCANNER micRA"
   # MicRA
   add-aliases "scanner_micRA_cve20191040"
   add-history scanner_micRA_cve20191040
@@ -874,6 +874,7 @@ function install_scanner_micra_cve(){
 
 function install_scanner_netapi_cve(){
   colorecho "Installing SCANNER NetAPI"
+  pip3 install python-nmap
   # NetAPI
   add-aliases "scanner_netapi_cve20084250"
   add-history scanner_netapi_cve20084250
@@ -889,7 +890,7 @@ function install_scanner_petitpotam(){
 function install_scanner_printnightmare_cve(){
   colorecho "Installing SCANNER PrintNightmare"
   # PrintNightmare
-  add-aliases "scanner_printnightmare_cve20211675 "
+  add-aliases "scanner_printnightmare_cve20211675"
   add-history scanner_printnightmare_cve20211675
 }
 
@@ -903,28 +904,28 @@ function install_scanner_rpcdump(){
 function install_scanner_samaacountname_cve(){
   colorecho "Installing SCANNER sAMAccountName"
   # sAMAccountName
-  add-aliases "scanner_sAMAccountName_cve202142278 "
+  add-aliases "scanner_sAMAccountName_cve202142278"
   add-history scanner_sAMAccountName_cve202142278
 }
 
 function install_scanner_smbghost_cve(){
   colorecho "Installing SCANNER SMBGhost"
   # SMB Ghost
-  add-aliases "scanner_smbghost_cve20200796 "
+  add-aliases "scanner_smbghost_cve20200796"
   add-history scanner_smbghost_cve20200796
 }
 
 function install_scanner_smbbleed_cve(){
   colorecho "Installing SCANNER SMBBleed" 
   # SMB Bleed
-  add-aliases "scanner_smbleed_cve20201206 "
+  add-aliases "scanner_smbleed_cve20201206"
   add-history scanner_smbleed_cve20201206
 }
 
 function install_scanner_smbsigning(){
   colorecho "Installing SCANNER SMB signing" 
   # SMB Signing
-  add-aliases "scanner_smbsigning "
+  add-aliases "scanner_smbsigning"
   add-history scanner_smbsigning
 }
 
@@ -967,21 +968,21 @@ function install_poc_petitpotam() {
 function install_poc_printnightmare() {
   colorecho "Installing POC PrintNightmare"
   # PrintNightmare
-  add-aliases "poc_printnightmare_cve20211675 "
+  add-aliases "poc_printnightmare_cve20211675"
   add-history poc_printnightmare_cve20211675
 }
 
 function install_poc_samaacountname() {
   colorecho "Installing POC sAMAccountName"
   # sAMAccountName
-  add-aliases "poc_sAMAccountName_cve202142278 "
+  add-aliases "poc_sAMAccountName_cve202142278"
   add-history poc_sAMAccountName_cve202142278
 }
 
 function install_poc_smbghost() {
   colorecho "Installing POC SMB Ghost"
   # SMB Ghost
-  add-aliases "poc_smbghost_cve20200796 "
+  add-aliases "poc_smbghost_cve20200796"
   add-history poc_smbghost_cve20200796
 }
 
@@ -1427,6 +1428,9 @@ function package_network() {
 # SCANNER & POC 
 ################
 function package_tools_breakaday() {
+  # BASIC
+  install_breakaday
+
   # SCANNER
   install_scanner_bluegate_cve
   install_scanner_eternablue_cve

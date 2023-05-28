@@ -18,17 +18,33 @@ During a penetration test on an Active Directory (AD) infrastructure, it often h
 In addition of the searching part, the script was made to find new ways of compromission. For this, the database Neo4j (and BloodHound) is used to create the paths of compromission from the vulnerable computers. In brief, for each computer vulnerable, a new value "isVulnerableToX" is set. It can be used with cypher queries.
 
 ## 🛠 Installation <a name="installation"/>
-**NEW WAY - Via Docker**
-# => ALL_IN_ONE
-All the explantions of the Docker installation (creation of the image, run, and launch are described into DOCKER/HowToDocker.txt)
+**NEW WAY - Via Docker : AIO**
+All the explanations of the Docker installation (creation of the image, run, and launch are described into DOCKER/HowToDocker.txt). You just need to replace the term with a "$".
 ```sh
+**With detailed explanations**
+## Build the image : from the root folder
 docker build -f DOCKER/breakaday.all.dockerfile . -t breakaday_all
-docker run -it -v $(pwd)/PENTEST/:/workspace --name persistent_breakaday_all_enterprise breakaday_all
-docker container ls -a 
+
+## Create the containeur : choose the shared folder from your host, then you can work with it.
+docker run -it -v $/$SHARED_FOLDER_FROM_HOST/:/workspace --name $DOCKER_CONTAINER_NAME $DOCKER_IMAGE_NAME (here = breakaday_all)
+
+## Once, you want to relaunch it, just find the container with the name specified previously and relaunch it
+# To find the list of containers
+docker container ls -a
+breakaday_all     latest    4c471cffda24   15 hours ago        11.5GB
+
+# Start and execute it
 docker start $ID
 docker exec -it $ID zsh
 ```
 
+```sh
+**All in one - Create the container (with the name = persistent_breakaday_all) with the shared folder into your current directory**
+docker build -f DOCKER/breakaday.all.dockerfile . -t breakaday_all
+docker run -it -v $(pwd):/workspace --name persistent_breakaday_all breakaday_all
+```
+
+**OLD WAY - IN CLI**
 **I) Command per command**
 1) Clone the repository
 ```sh

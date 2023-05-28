@@ -1,1 +1,0 @@
-scanner_petitpotam "$TARGET_IP" "$TARGET_PORT" "$domain_name" "$USERNAME" "$PASSWORD" "$NTLM_HASH"
