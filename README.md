@@ -21,21 +21,22 @@ In addition of the searching part, the script was made to find new ways of compr
 **NEW WAY - Via Docker : AIO**
 
 All the explanations of the Docker installation (creation of the image, run, and launch are described into DOCKER/HowToDocker.txt). You just need to replace the term with a "$".
+
 **With detailed explanations**
 ```sh
-## Build the image : from the root folder
+## Build the image (from the root folder of the project BREAKADAY_BASH)
 docker build -f DOCKER/breakaday.all.dockerfile . -t breakaday_all
 
 ## Create the containeur : choose the shared folder from your host, then you can work with it.
 docker run -it -v $/$SHARED_FOLDER_FROM_HOST/:/workspace --name $DOCKER_CONTAINER_NAME $DOCKER_IMAGE_NAME (here = breakaday_all)
 
 ## Once, you want to relaunch it, just find the container with the name specified previously and relaunch it
-# To find the list of containers
+# To find the list of containers (running or exited)
 docker container ls -a
 breakaday_all     latest    4c471cffda24   15 hours ago        11.5GB
 
-# Start and execute it
-docker start $ID
+# Start and execute it (as an example, there the ID would be = 4c471cffda24)
+docker start $ID 
 docker exec -it $ID zsh
 ```
 
