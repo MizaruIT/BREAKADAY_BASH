@@ -19,9 +19,10 @@ In addition of the searching part, the script was made to find new ways of compr
 
 ## 🛠 Installation <a name="installation"/>
 **NEW WAY - Via Docker : AIO**
+
 All the explanations of the Docker installation (creation of the image, run, and launch are described into DOCKER/HowToDocker.txt). You just need to replace the term with a "$".
-```sh
 **With detailed explanations**
+```sh
 ## Build the image : from the root folder
 docker build -f DOCKER/breakaday.all.dockerfile . -t breakaday_all
 
@@ -38,13 +39,14 @@ docker start $ID
 docker exec -it $ID zsh
 ```
 
-```sh
 **All in one - Create the container (with the name = persistent_breakaday_all) with the shared folder into your current directory**
+```sh
 docker build -f DOCKER/breakaday.all.dockerfile . -t breakaday_all
 docker run -it -v $(pwd):/workspace --name persistent_breakaday_all breakaday_all
 ```
 
 **OLD WAY - IN CLI**
+
 **I) Command per command**
 1) Clone the repository
 ```sh
