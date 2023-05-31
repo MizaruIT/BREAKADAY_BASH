@@ -46,6 +46,41 @@ docker build -f DOCKER/breakaday.all.dockerfile . -t breakaday_all
 docker run -it -v $(pwd):/workspace --name persistent_breakaday_all breakaday_all
 ```
 
+Once you are into the container, you get access to the scripts and the scanners/PoC tools
+```sh
+# Scanner Tools
+[May 31, 2023 - 20:19:31 (UTC)] 4a7cd65bdc93 /workspace # scanner_
+scanner_bluegate_cve20200610         scanner_micRA_cve20191040            scanner_printnightmare_cve20211675   scanner_smbleed_cve20201206                
+scanner_eternalblue_ms17010          scanner_netapi_cve20084250           scanner_sAMAccountName_cve202142278  scanner_smbsigning                
+scanner_getgppcreds                  scanner_petitpotam                   scanner_smbghost_cve20200796         scanner_zerologon_cve20201472
+
+# PoC Tools
+[May 31, 2023 - 20:21:10 (UTC)] 4a7cd65bdc93 /workspace # poc_
+poc_bluegate_cve20200610         poc_netapi_cve20084250           poc_printnightmare_cve20211675   poc_smbghost_cve20200796         
+poc_eternalblue_ms17010          poc_petitpotam                   poc_sAMAccountName_cve202142278  poc_zerologon_cve20201472
+
+# Breakaday script
+[May 31, 2023 - 20:21:47 (UTC)] 4a7cd65bdc93 /workspace # breakaday 
+ ______   ______ _______ _______ _     _ _______ ______  _______ __   __
+ |_____] |_____/ |______ |_____| |____/  |_____| |     \ |_____|   \_/  
+ |_____] |    \_ |______ |     | |    \_ |     | |_____/ |     |    |   
+                                                                        
+by 
+@MizaruIT on Twitter: wwW.twitter.com/MizaruIT
+@MizaruIT on GitHub: www.github.com/MizaruIT
+
+=> MAIN MENU
+1) Option 1: Scanning network
+2) Option 2: Searching for known vulnerabilities
+3) Option 3: Exploiting vulnerabilities
+4) Option 4: Setting and requesting BloodHound
+5) Option 5: Adding or removing informations (accounts, etc.)
+6) Option 6: Show list of attacks and their details (description, exploitation steps, mitigations, etc.)
+7) Option 7: QUIT
+
+```
+
+
 **OLD WAY - IN CLI**
 
 **I) Command per command**
