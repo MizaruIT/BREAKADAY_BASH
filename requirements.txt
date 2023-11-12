@@ -1,3 +1,4 @@
+# For POC & SCANNER
 python-nmap
 pysmb
 impacket
@@ -5,3 +6,8 @@ dsinternals
 pyasn1>=0.4.5
 pyasn-modules>=0.2.5
 python-ldap>=3.2.0
+chardet
+
+# For BREAKADAY script
+GitPython
+neo4j

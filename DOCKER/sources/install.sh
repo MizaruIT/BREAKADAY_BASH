@@ -993,6 +993,14 @@ function install_poc_zerologon() {
   add-history poc_zerologon_cve20201472
 }
 
+function install_adminer() {
+  colorecho "Installing AD Miner" 
+  # AD Miner
+  # pip3 install 'git+https://github.com/Mazars-Tech/AD_Miner.git'
+  python3 -m pipx install 'git+https://github.com/Mazars-Tech/AD_Miner.git'
+}
+
+
 
 #####################
 ### => WORDLISTS
@@ -1455,6 +1463,9 @@ function package_tools_breakaday() {
   install_poc_samaacountname
   install_poc_smbghost
   install_poc_zerologon
+
+  # analysis AD data
+  install_adminer
 }
 
 # Entry point for the installation
